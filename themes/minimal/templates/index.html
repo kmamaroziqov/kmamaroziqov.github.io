@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ SITENAME }} — {{ SITESUBTITLE }}{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <p class="eyebrow">AI + Automation</p>
+    <h1>Sharp notes on applied AI</h1>
+    <p class="lede">Concise write-ups on experiments, tools, and workflows. Posts mirror to Telegram and can land in your inbox.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="{{ SITE_META.telegram }}">Join Telegram</a>
+      <a class="btn ghost" href="#posts">Read posts</a>
+    </div>
+  </section>
+
+  <section id="posts" class="post-list">
+    {% for article in articles %}
+      <article class="post-card">
+        <div class="meta">
+          <span class="date">{{ article.date.strftime('%b %d, %Y') }}</span>
+          {% if article.tags %}
+            <span class="dot">•</span>
+            <span class="tags">
+              {% for tag in article.tags %}
+                <span class="tag">{{ tag }}</span>
+              {% endfor %}
+            </span>
+          {% endif %}
+        </div>
+        <h2><a href="{{ SITEURL }}/{{ article.url }}">{{ article.title }}</a></h2>
+        {% if article.summary %}
+          <p class="summary">{{ article.summary }}</p>
+        {% endif %}
+        <div class="actions">
+          <a href="{{ SITEURL }}/{{ article.url }}">Read</a>
+          <span>→</span>
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+{% endblock %}

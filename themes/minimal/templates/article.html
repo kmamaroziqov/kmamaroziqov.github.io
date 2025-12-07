@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} — {{ SITENAME }}{% endblock %}
+
+{% block content %}
+  <article class="article">
+    <p class="eyebrow">{{ article.date.strftime('%b %d, %Y') }}</p>
+    <h1>{{ article.title }}</h1>
+    {% if article.tags %}
+      <div class="tag-row">
+        {% for tag in article.tags %}
+          <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="article-body">
+      {{ article.content }}
+    </div>
+    <div class="share">
+      <span>Share:</span>
+      <a href="https://t.me/share/url?url={{ (SITEURL + '/' + article.url) | urlencode }}&text={{ article.title | urlencode }}">Telegram</a>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ (SITEURL + '/' + article.url) | urlencode }}">LinkedIn</a>
+    </div>
+  </article>
+{% endblock %}
