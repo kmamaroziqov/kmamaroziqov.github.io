@@ -5,7 +5,7 @@ import os
 AUTHOR = "Kamronbek Mamaroziqov"
 SITENAME = "My thoughts and notes on my Experiments"
 SITESUBTITLE = "Thoughtful notes on AI and automation"
-SITEURL = ""
+SITEURL = "https://kmamaroziqov.github.io/"
 
 PATH = "content"
 
