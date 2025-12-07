@@ -392,6 +392,246 @@
     .hidden {
       display: none !important;
     }
+
+    /* Media Toolbar */
+    .toolbar {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      background: #171717;
+      border: 1px solid #262626;
+      border-radius: 6px 6px 0 0;
+      border-bottom: none;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-btn {
+      padding: 0.5rem 0.75rem;
+      background: #262626;
+      border: 1px solid #363636;
+      border-radius: 4px;
+      color: #d4d4d4;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    .toolbar-btn:hover {
+      background: #363636;
+      border-color: #525252;
+      color: #fff;
+    }
+
+    .toolbar-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .toolbar-divider {
+      width: 1px;
+      background: #363636;
+      margin: 0 0.25rem;
+    }
+
+    #body {
+      border-radius: 0 0 6px 6px;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      background: #171717;
+      border: 1px solid #262626;
+      border-radius: 12px;
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .modal-header h3 {
+      font-size: 1.125rem;
+      color: #fff;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: #737373;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #fff;
+    }
+
+    /* Image upload area */
+    .upload-area {
+      border: 2px dashed #363636;
+      border-radius: 8px;
+      padding: 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .upload-area:hover {
+      border-color: #3b82f6;
+      background: #1a1a2e;
+    }
+
+    .upload-area.dragover {
+      border-color: #22c55e;
+      background: #1a2e1a;
+    }
+
+    .upload-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .upload-text {
+      color: #737373;
+      font-size: 0.875rem;
+    }
+
+    /* Image preview */
+    .image-preview {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .image-preview img {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 6px;
+      border: 1px solid #262626;
+    }
+
+    .image-info {
+      font-size: 0.75rem;
+      color: #737373;
+      margin-top: 0.5rem;
+    }
+
+    /* Size options */
+    .size-options {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .size-option {
+      padding: 0.5rem 1rem;
+      background: #262626;
+      border: 1px solid #363636;
+      border-radius: 6px;
+      color: #d4d4d4;
+      cursor: pointer;
+      font-size: 0.8125rem;
+      transition: all 0.2s;
+    }
+
+    .size-option:hover {
+      border-color: #3b82f6;
+    }
+
+    .size-option.active {
+      background: #3b82f6;
+      border-color: #3b82f6;
+      color: #fff;
+    }
+
+    /* Preview enhancements */
+    .preview-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .preview-content .youtube-embed {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      margin: 1rem 0;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .preview-content .youtube-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .preview-content a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+
+    .preview-content a:hover {
+      text-decoration: underline;
+    }
+
+    .preview-content code {
+      background: #262626;
+      padding: 0.125rem 0.375rem;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.875em;
+    }
+
+    .preview-content pre {
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+
+    .preview-content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .preview-content blockquote {
+      border-left: 3px solid #3b82f6;
+      padding-left: 1rem;
+      margin: 1rem 0;
+      color: #a3a3a3;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -480,6 +720,41 @@
 
         <div class="form-group">
           <label for="body">Content (Markdown)</label>
+          <div class="toolbar">
+            <button type="button" class="toolbar-btn" onclick="insertBold()" title="Bold">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
+              B
+            </button>
+            <button type="button" class="toolbar-btn" onclick="insertItalic()" title="Italic">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
+              I
+            </button>
+            <button type="button" class="toolbar-btn" onclick="insertHeading()" title="Heading">
+              H
+            </button>
+            <button type="button" class="toolbar-btn" onclick="insertList()" title="Bullet List">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg>
+            </button>
+            <button type="button" class="toolbar-btn" onclick="insertQuote()" title="Quote">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
+            </button>
+            <button type="button" class="toolbar-btn" onclick="insertCode()" title="Code">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </button>
+            <div class="toolbar-divider"></div>
+            <button type="button" class="toolbar-btn" onclick="openLinkModal()" title="Insert Link">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              Link
+            </button>
+            <button type="button" class="toolbar-btn" onclick="openImageModal()" title="Insert Image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Image
+            </button>
+            <button type="button" class="toolbar-btn" onclick="openYouTubeModal()" title="Embed YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              YouTube
+            </button>
+          </div>
           <textarea id="body" name="body" placeholder="Write your post content here..."></textarea>
         </div>
 
@@ -556,6 +831,90 @@
         <button class="btn btn-secondary" onclick="closePreview()">✕ Close</button>
       </div>
       <div id="previewContent" class="preview-content"></div>
+    </div>
+  </div>
+
+  <!-- Link Modal -->
+  <div id="linkModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🔗 Insert Link</h3>
+        <button class="modal-close" onclick="closeLinkModal()">&times;</button>
+      </div>
+      <div class="form-group">
+        <label for="linkText">Link Text</label>
+        <input type="text" id="linkText" placeholder="Click here">
+      </div>
+      <div class="form-group">
+        <label for="linkUrl">URL</label>
+        <input type="text" id="linkUrl" placeholder="https://example.com">
+      </div>
+      <button class="btn btn-primary" onclick="insertLink()" style="width: 100%;">Insert Link</button>
+    </div>
+  </div>
+
+  <!-- Image Modal -->
+  <div id="imageModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🖼️ Insert Image</h3>
+        <button class="modal-close" onclick="closeImageModal()">&times;</button>
+      </div>
+      
+      <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
+        <div class="upload-icon">📷</div>
+        <div class="upload-text">Click or drag & drop an image</div>
+        <div class="upload-text" style="font-size: 0.75rem; margin-top: 0.25rem;">Supports: JPG, PNG, GIF, WebP</div>
+      </div>
+      <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
+      
+      <div id="imagePreviewContainer" class="image-preview hidden">
+        <img id="imagePreviewImg" src="" alt="Preview">
+        <div class="image-info" id="imageInfo"></div>
+      </div>
+      
+      <div class="form-group">
+        <label>Or paste image URL</label>
+        <input type="text" id="imageUrl" placeholder="https://example.com/image.jpg" oninput="handleImageUrl()">
+      </div>
+      
+      <div class="form-group">
+        <label for="imageAlt">Alt Text (for accessibility)</label>
+        <input type="text" id="imageAlt" placeholder="Description of the image">
+      </div>
+      
+      <div class="form-group">
+        <label>Image Size</label>
+        <div class="size-options">
+          <button type="button" class="size-option" data-size="small" onclick="selectSize('small')">Small (320px)</button>
+          <button type="button" class="size-option active" data-size="medium" onclick="selectSize('medium')">Medium (640px)</button>
+          <button type="button" class="size-option" data-size="large" onclick="selectSize('large')">Large (1024px)</button>
+          <button type="button" class="size-option" data-size="full" onclick="selectSize('full')">Original</button>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" onclick="insertImage()" style="width: 100%;">Insert Image</button>
+    </div>
+  </div>
+
+  <!-- YouTube Modal -->
+  <div id="youtubeModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>▶️ Embed YouTube Video</h3>
+        <button class="modal-close" onclick="closeYouTubeModal()">&times;</button>
+      </div>
+      <div class="form-group">
+        <label for="youtubeUrl">YouTube URL</label>
+        <input type="text" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..." oninput="parseYouTubeUrl()">
+        <p style="font-size: 0.75rem; color: #737373; margin-top: 0.5rem;">Paste any YouTube link (regular, short, or embed)</p>
+      </div>
+      <div id="youtubePreview" class="hidden" style="margin: 1rem 0;">
+        <div style="position: relative; padding-bottom: 56.25%; border-radius: 8px; overflow: hidden;">
+          <iframe id="youtubePreviewFrame" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="insertYouTube()" style="width: 100%;">Embed Video</button>
     </div>
   </div>
 
@@ -969,6 +1328,354 @@ Content: ${body.substring(0, 1500)}`,
         document.getElementById('slug').value = slugify(e.target.value);
       }
     });
+
+    // ==================== Toolbar Functions ====================
+    function insertAtCursor(before, after = '') {
+      const textarea = document.getElementById('body');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const text = textarea.value;
+      const selectedText = text.substring(start, end);
+      
+      const newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
+      textarea.value = newText;
+      
+      // Set cursor position
+      const newCursorPos = start + before.length + selectedText.length + after.length;
+      textarea.focus();
+      textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length);
+    }
+
+    function insertBold() {
+      insertAtCursor('**', '**');
+    }
+
+    function insertItalic() {
+      insertAtCursor('*', '*');
+    }
+
+    function insertHeading() {
+      const textarea = document.getElementById('body');
+      const start = textarea.selectionStart;
+      const text = textarea.value;
+      
+      // Find the start of the current line
+      let lineStart = start;
+      while (lineStart > 0 && text[lineStart - 1] !== '\n') {
+        lineStart--;
+      }
+      
+      const newText = text.substring(0, lineStart) + '## ' + text.substring(lineStart);
+      textarea.value = newText;
+      textarea.focus();
+      textarea.setSelectionRange(lineStart + 3, lineStart + 3);
+    }
+
+    function insertList() {
+      insertAtCursor('\n- ', '');
+    }
+
+    function insertQuote() {
+      insertAtCursor('\n> ', '');
+    }
+
+    function insertCode() {
+      const textarea = document.getElementById('body');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = textarea.value.substring(start, end);
+      
+      if (selectedText.includes('\n')) {
+        insertAtCursor('\n```\n', '\n```\n');
+      } else {
+        insertAtCursor('`', '`');
+      }
+    }
+
+    // ==================== Link Modal ====================
+    function openLinkModal() {
+      const textarea = document.getElementById('body');
+      const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+      document.getElementById('linkText').value = selectedText || '';
+      document.getElementById('linkUrl').value = '';
+      document.getElementById('linkModal').classList.remove('hidden');
+    }
+
+    function closeLinkModal() {
+      document.getElementById('linkModal').classList.add('hidden');
+    }
+
+    function insertLink() {
+      const text = document.getElementById('linkText').value || 'link';
+      const url = document.getElementById('linkUrl').value;
+      
+      if (!url) {
+        showToast('Please enter a URL', true);
+        return;
+      }
+      
+      const textarea = document.getElementById('body');
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const content = textarea.value;
+      
+      const markdown = `[${text}](${url})`;
+      textarea.value = content.substring(0, start) + markdown + content.substring(end);
+      textarea.focus();
+      
+      closeLinkModal();
+      showToast('Link inserted!');
+    }
+
+    // ==================== Image Modal ====================
+    let currentImageData = null;
+    let selectedImageSize = 'medium';
+
+    function openImageModal() {
+      currentImageData = null;
+      document.getElementById('imageUrl').value = '';
+      document.getElementById('imageAlt').value = '';
+      document.getElementById('imagePreviewContainer').classList.add('hidden');
+      document.getElementById('imageModal').classList.remove('hidden');
+      selectSize('medium');
+    }
+
+    function closeImageModal() {
+      document.getElementById('imageModal').classList.add('hidden');
+      currentImageData = null;
+    }
+
+    function selectSize(size) {
+      selectedImageSize = size;
+      document.querySelectorAll('.size-option').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.size-option[data-size="${size}"]`).classList.add('active');
+    }
+
+    // Drag and drop
+    const uploadArea = document.getElementById('uploadArea');
+    
+    uploadArea?.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+
+    uploadArea?.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+
+    uploadArea?.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        processImage(file);
+      }
+    });
+
+    function handleImageSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        processImage(file);
+      }
+    }
+
+    function handleImageUrl() {
+      const url = document.getElementById('imageUrl').value;
+      if (url) {
+        currentImageData = { type: 'url', url };
+        document.getElementById('imagePreviewImg').src = url;
+        document.getElementById('imagePreviewContainer').classList.remove('hidden');
+        document.getElementById('imageInfo').textContent = 'External image';
+      }
+    }
+
+    async function processImage(file) {
+      showToast('Processing image...');
+      
+      const sizes = {
+        small: 320,
+        medium: 640,
+        large: 1024,
+        full: null
+      };
+      
+      const maxWidth = sizes[selectedImageSize];
+      
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+          
+          // Resize if needed
+          if (maxWidth && width > maxWidth) {
+            height = (height * maxWidth) / width;
+            width = maxWidth;
+          }
+          
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // Convert to base64 (WebP for better compression if supported, else JPEG)
+          let dataUrl;
+          const quality = 0.85;
+          
+          if (canvas.toDataURL('image/webp').startsWith('data:image/webp')) {
+            dataUrl = canvas.toDataURL('image/webp', quality);
+          } else {
+            dataUrl = canvas.toDataURL('image/jpeg', quality);
+          }
+          
+          currentImageData = {
+            type: 'base64',
+            data: dataUrl,
+            filename: file.name.replace(/\.[^.]+$/, '') + (selectedImageSize === 'full' ? '' : `-${selectedImageSize}`),
+            width,
+            height,
+            originalSize: file.size,
+            newSize: Math.round(dataUrl.length * 0.75)
+          };
+          
+          document.getElementById('imagePreviewImg').src = dataUrl;
+          document.getElementById('imagePreviewContainer').classList.remove('hidden');
+          
+          const savedPercent = Math.round((1 - currentImageData.newSize / currentImageData.originalSize) * 100);
+          document.getElementById('imageInfo').textContent = 
+            `${width}×${height}px • ${formatBytes(currentImageData.newSize)}` + 
+            (savedPercent > 0 ? ` (${savedPercent}% smaller)` : '');
+          
+          showToast('Image ready!');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    async function insertImage() {
+      const altText = document.getElementById('imageAlt').value || 'image';
+      const urlInput = document.getElementById('imageUrl').value;
+      
+      if (!currentImageData && !urlInput) {
+        showToast('Please upload an image or enter a URL', true);
+        return;
+      }
+      
+      let imageUrl = urlInput;
+      
+      if (currentImageData?.type === 'base64') {
+        // Upload to GitHub
+        showToast('Uploading image to GitHub...');
+        try {
+          const filename = `${currentImageData.filename}-${Date.now()}.webp`;
+          const path = `content/images/uploads/${filename}`;
+          
+          // Extract base64 data without prefix
+          const base64Data = currentImageData.data.split(',')[1];
+          
+          await githubApi(`/repos/${CONFIG.repo}/contents/${path}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+              message: `Upload image: ${filename}`,
+              content: base64Data,
+              branch: CONFIG.branch
+            })
+          });
+          
+          imageUrl = `/images/uploads/${filename}`;
+          showToast('Image uploaded!');
+        } catch (e) {
+          console.error(e);
+          showToast('Failed to upload image', true);
+          return;
+        }
+      }
+      
+      const markdown = `![${altText}](${imageUrl})`;
+      const textarea = document.getElementById('body');
+      const pos = textarea.selectionStart;
+      textarea.value = textarea.value.substring(0, pos) + '\n' + markdown + '\n' + textarea.value.substring(pos);
+      
+      closeImageModal();
+    }
+
+    // ==================== YouTube Modal ====================
+    let currentYouTubeId = null;
+
+    function openYouTubeModal() {
+      document.getElementById('youtubeUrl').value = '';
+      document.getElementById('youtubePreview').classList.add('hidden');
+      currentYouTubeId = null;
+      document.getElementById('youtubeModal').classList.remove('hidden');
+    }
+
+    function closeYouTubeModal() {
+      document.getElementById('youtubeModal').classList.add('hidden');
+    }
+
+    function parseYouTubeUrl() {
+      const url = document.getElementById('youtubeUrl').value;
+      
+      // Extract video ID from various YouTube URL formats
+      const patterns = [
+        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/,
+        /youtube\.com\/shorts\/([\w-]{11})/
+      ];
+      
+      for (const pattern of patterns) {
+        const match = url.match(pattern);
+        if (match) {
+          currentYouTubeId = match[1];
+          document.getElementById('youtubePreviewFrame').src = `https://www.youtube.com/embed/${currentYouTubeId}`;
+          document.getElementById('youtubePreview').classList.remove('hidden');
+          return;
+        }
+      }
+      
+      currentYouTubeId = null;
+      document.getElementById('youtubePreview').classList.add('hidden');
+    }
+
+    function insertYouTube() {
+      if (!currentYouTubeId) {
+        showToast('Please enter a valid YouTube URL', true);
+        return;
+      }
+      
+      // Use a custom syntax that we'll parse in preview
+      const markdown = `\n{% youtube ${currentYouTubeId} %}\n`;
+      const textarea = document.getElementById('body');
+      const pos = textarea.selectionStart;
+      textarea.value = textarea.value.substring(0, pos) + markdown + textarea.value.substring(pos);
+      
+      closeYouTubeModal();
+      showToast('YouTube video embedded!');
+    }
+
+    // ==================== Enhanced Preview ====================
+    function previewPost() {
+      const title = document.getElementById('title').value;
+      let body = document.getElementById('body').value;
+      
+      // Process YouTube embeds
+      body = body.replace(/\{%\s*youtube\s+([\w-]+)\s*%\}/g, (match, videoId) => {
+        return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
+      });
+      
+      const html = `<h1>${title}</h1>${marked.parse(body)}`;
+      document.getElementById('previewContent').innerHTML = html;
+      document.getElementById('previewModal').classList.remove('hidden');
+    }
 
     // ==================== Init on Load ====================
     initApp();
