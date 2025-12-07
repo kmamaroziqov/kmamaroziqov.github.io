@@ -1383,20 +1383,34 @@ Content: ${body.substring(0, 1500)}`,
       }
 
       const title = document.getElementById('title').value;
-      const summary = document.getElementById('summary').value;
+      const body = document.getElementById('body').value;
       const slug = document.getElementById('slug').value || slugify(title);
       const siteUrl = localStorage.getItem('site_url') || 'https://kmamaroziqov.github.io';
       const link = `${siteUrl}/posts/${slug}/`;
 
-      // Check if we have AI-refined telegram content
-      const aiOutput = document.getElementById('aiOutput').textContent;
-      let message;
-      
-      if (aiOutput && !aiOutput.startsWith('AI suggestions') && !aiOutput.startsWith('Error')) {
-        message = `${aiOutput}\n\n🔗 ${link}`;
-      } else {
-        message = `📝 *${title}*\n\n${summary || ''}\n\n🔗 Read more: ${link}`;
-      }
+      // Convert markdown to Telegram-friendly format
+      let telegramContent = body
+        // Convert headers to bold
+        .replace(/^### (.+)$/gm, '*$1*')
+        .replace(/^## (.+)$/gm, '*$1*')
+        .replace(/^# (.+)$/gm, '*$1*')
+        // Convert bold
+        .replace(/\*\*(.+?)\*\*/g, '*$1*')
+        // Convert italic (underscore style)
+        .replace(/(?<!\w)_(.+?)_(?!\w)/g, '_$1_')
+        // Convert inline code
+        .replace(/`([^`]+)`/g, '`$1`')
+        // Convert code blocks
+        .replace(/```(\w+)?\n([\s\S]+?)```/g, '```$2```')
+        // Convert links [text](url) to text (url)
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
+        // Convert images to just the alt text with URL
+        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '🖼 $1: $2')
+        // Clean up multiple newlines
+        .replace(/\n{3,}/g, '\n\n');
+
+      // Build the full message with title
+      const message = `*${title}*\n\n${telegramContent}\n\n🔗 ${link}\n\n@lab_log`;
 
       try {
         showToast('Posting to Telegram...');
