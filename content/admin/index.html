@@ -939,17 +939,43 @@
       const authUrl = `${CONFIG.oauthUrl}/api/auth`;
       const popup = window.open(authUrl, 'GitHub Auth', 'width=600,height=700');
       
-      window.addEventListener('message', function authHandler(e) {
-        if (e.data && typeof e.data === 'string' && e.data.startsWith('authorization:github:success:')) {
-          const json = e.data.replace('authorization:github:success:', '');
-          const data = JSON.parse(json);
-          accessToken = data.token;
-          localStorage.setItem('github_token', accessToken);
-          popup.close();
-          window.removeEventListener('message', authHandler);
-          initApp();
+      // Listen for messages from popup
+      const authHandler = function(e) {
+        console.log('Received message:', e.data);
+        
+        // Handle the authorization message
+        if (e.data && typeof e.data === 'string') {
+          if (e.data.startsWith('authorization:github:success:')) {
+            const json = e.data.replace('authorization:github:success:', '');
+            try {
+              const data = JSON.parse(json);
+              accessToken = data.token;
+              localStorage.setItem('github_token', accessToken);
+              window.removeEventListener('message', authHandler);
+              if (popup && !popup.closed) popup.close();
+              showToast('Login successful!');
+              initApp();
+            } catch (err) {
+              console.error('Failed to parse auth data:', err);
+              showToast('Login failed', true);
+            }
+          } else if (e.data === 'authorizing:github') {
+            // Popup is ready, send acknowledgment
+            console.log('Popup ready, sending ack');
+            e.source.postMessage('ack', e.origin);
+          }
         }
-      });
+      };
+      
+      window.addEventListener('message', authHandler);
+      
+      // Fallback: check if popup closed without auth
+      const checkClosed = setInterval(() => {
+        if (popup && popup.closed) {
+          clearInterval(checkClosed);
+          window.removeEventListener('message', authHandler);
+        }
+      }, 1000);
     }
 
     function logout() {
