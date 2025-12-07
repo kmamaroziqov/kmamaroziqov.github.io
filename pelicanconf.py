@@ -68,3 +68,6 @@ JINJA_GLOBALS = {
 # Ensure author is available even if not set per-article/page
 DEFAULT_METADATA = {"author": AUTHOR}
 DEFAULT_PAGE_METADATA = {"author": AUTHOR}
+
+# Treat raw HTML files as static (do not parse as content)
+READERS = {"html": None}
