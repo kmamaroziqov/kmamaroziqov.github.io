@@ -1,0 +1,39 @@
+backend:
+  name: github
+  repo: kmamaroziqov/kmamaroziqov.github.io
+  branch: main
+  base_url: https://YOUR-OAUTH-APP.example.com
+  auth_endpoint: /api/auth
+
+publish_mode: editorial_workflow
+media_folder: "content/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "posts"
+    label: "Posts"
+    folder: "content/posts"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "posts/{{slug}}/"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Summary", name: "summary", widget: "text", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Link", name: "link", widget: "string", required: false, hint: "Leave blank to auto-use /posts/<slug>/" }
+      - { label: "Author", name: "author", widget: "string", default: "Kamronbek Mamaroziqov" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "pages"
+    label: "Pages"
+    folder: "content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Author", name: "author", widget: "string", default: "Kamronbek Mamaroziqov" }
+      - { label: "Body", name: "body", widget: "markdown" }
