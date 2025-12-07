@@ -64,3 +64,8 @@ SITE_META = {
 JINJA_GLOBALS = {
     "CURRENT_YEAR": __import__("datetime").datetime.utcnow().year,
 }
+
+# Ensure author is available even if not set per-article
+DEFAULT_METADATA = {
+    "author": AUTHOR,
+}
