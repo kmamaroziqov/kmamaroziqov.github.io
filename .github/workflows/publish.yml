@@ -25,6 +25,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: github-pages
+    env:
+      SITEURL: ${{ secrets.SITEURL || 'https://kmamaroziqov.github.io' }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,22 +47,22 @@ jobs:
       - name: Build site
         run: pelican content -o output -s publishconf.py
         env:
-          SITEURL: ${{ secrets.SITEURL || 'https://kmamaroziqov.github.io' }}
+          SITEURL: ${{ env.SITEURL }}
 
       - name: Post to Telegram
-        if: ${{ secrets.TELEGRAM_BOT_TOKEN != '' && secrets.TELEGRAM_CHAT_ID != '' }}
+        if: ${{ env.TELEGRAM_BOT_TOKEN != '' && env.TELEGRAM_CHAT_ID != '' }}
         run: python scripts/post_to_telegram.py
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          SITEURL: ${{ secrets.SITEURL || 'https://kmamaroziqov.github.io' }}
+          TELEGRAM_BOT_TOKEN: ${{ env.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ env.TELEGRAM_CHAT_ID }}
+          SITEURL: ${{ env.SITEURL }}
 
       - name: Send newsletter (Buttondown)
-        if: ${{ secrets.BUTTONDOWN_API_KEY != '' }}
+        if: ${{ env.BUTTONDOWN_API_KEY != '' }}
         run: python scripts/send_newsletter.py
         env:
-          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
-          SITEURL: ${{ secrets.SITEURL || 'https://kmamaroziqov.github.io' }}
+          BUTTONDOWN_API_KEY: ${{ env.BUTTONDOWN_API_KEY }}
+          SITEURL: ${{ env.SITEURL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
