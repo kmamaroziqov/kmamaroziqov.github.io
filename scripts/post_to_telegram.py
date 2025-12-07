@@ -47,57 +47,44 @@ def latest_post() -> Path | None:
 
 
 def convert_markdown_to_telegram(text: str) -> str:
-    """Convert markdown to Telegram-friendly HTML format."""
+    """Convert markdown to plain text (remove all formatting for safety)."""
     import re
-    import html
     
-    # First, escape HTML entities in the raw text
-    text = html.escape(text)
+    # Remove images completely (just keep alt text)
+    text = re.sub(r'!\[([^\]]*)\]\([^)]+\)', r'\1', text)
     
-    # Convert headers to bold
-    text = re.sub(r'^### (.+)$', r'<b>\1</b>', text, flags=re.MULTILINE)
-    text = re.sub(r'^## (.+)$', r'<b>\1</b>', text, flags=re.MULTILINE)
-    text = re.sub(r'^# (.+)$', r'<b>\1</b>', text, flags=re.MULTILINE)
+    # Convert links [text](url) to just "text - url"
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', text)
     
-    # Convert bold **text** to <b>text</b>
-    text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', text)
+    # Remove headers markdown (keep text)
+    text = re.sub(r'^#{1,6}\s*', '', text, flags=re.MULTILINE)
     
-    # Convert single *text* to <b>text</b>
-    text = re.sub(r'(?<!\*)\*([^*\n]+)\*(?!\*)', r'<b>\1</b>', text)
+    # Remove bold/italic markdown
+    text = re.sub(r'\*\*(.+?)\*\*', r'\1', text)
+    text = re.sub(r'\*(.+?)\*', r'\1', text)
+    text = re.sub(r'__(.+?)__', r'\1', text)
+    text = re.sub(r'_(.+?)_', r'\1', text)
     
-    # Convert _text_ to italic
-    text = re.sub(r'(?<![\w_])_([^_\n]+)_(?![\w_])', r'<i>\1</i>', text)
+    # Remove inline code backticks
+    text = re.sub(r'`([^`]+)`', r'\1', text)
     
-    # Convert `code` to <code>
-    text = re.sub(r'`([^`]+)`', r'<code>\1</code>', text)
-    
-    # Convert code blocks ```code``` to <pre>
-    text = re.sub(r'```(\w+)?\n?([\s\S]+?)```', r'<pre>\2</pre>', text)
-    
-    # Convert links [text](url) to <a href>
-    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
-    
-    # Convert images to text with URL
-    text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'🖼 \1: \2', text)
+    # Remove code blocks
+    text = re.sub(r'```[\s\S]*?```', '', text)
     
     # Clean up multiple newlines
     text = re.sub(r'\n{3,}', '\n\n', text)
     
-    return text
+    return text.strip()
 
 
 def build_message(meta: dict, body: str, url: str) -> str:
     title = meta.get("title", "New post")
     
-    # Convert body to Telegram format
+    # Convert body to plain text (safest for Telegram)
     telegram_body = convert_markdown_to_telegram(body)
     
-    # Escape title for HTML
-    import html
-    safe_title = html.escape(title)
-    
-    # Build full message
-    parts = [f"<b>{safe_title}</b>", "", telegram_body, "", f"🔗 {url}", "", "@lab_log"]
+    # Build full message as plain text (no parse_mode needed)
+    parts = [title, "", telegram_body, "", f"🔗 {url}", "", "@lab_log"]
     return "\n".join(parts)
 
 
@@ -127,7 +114,7 @@ def main() -> int:
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     resp = requests.post(
         url,
-        json={"chat_id": chat_id, "text": message, "parse_mode": "HTML"},
+        json={"chat_id": chat_id, "text": message},
         timeout=10,
     )
 
