@@ -19,15 +19,22 @@ from pathlib import Path
 import requests
 
 
-def parse_metadata(md_path: Path) -> dict:
+def parse_metadata(md_path: Path) -> tuple[dict, str]:
+    """Parse frontmatter metadata and return (metadata, body content)."""
     metadata: dict[str, str] = {}
-    for line in md_path.read_text(encoding="utf-8").splitlines():
+    lines = md_path.read_text(encoding="utf-8").splitlines()
+    body_start = 0
+    
+    for i, line in enumerate(lines):
         if not line.strip():
+            body_start = i + 1
             break
         if ":" in line:
             key, value = line.split(":", 1)
             metadata[key.strip().lower()] = value.strip()
-    return metadata
+    
+    body = "\n".join(lines[body_start:]).strip()
+    return metadata, body
 
 
 def latest_post() -> Path | None:
@@ -39,13 +46,38 @@ def latest_post() -> Path | None:
     return posts[0] if posts else None
 
 
-def build_message(meta: dict, url: str) -> str:
+def convert_markdown_to_telegram(text: str) -> str:
+    """Convert markdown to Telegram-friendly format."""
+    import re
+    
+    # Convert headers to bold
+    text = re.sub(r'^### (.+)$', r'*\1*', text, flags=re.MULTILINE)
+    text = re.sub(r'^## (.+)$', r'*\1*', text, flags=re.MULTILINE)
+    text = re.sub(r'^# (.+)$', r'*\1*', text, flags=re.MULTILINE)
+    
+    # Convert bold **text** to *text*
+    text = re.sub(r'\*\*(.+?)\*\*', r'*\1*', text)
+    
+    # Convert links [text](url) to text (url)
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', text)
+    
+    # Convert images to alt text with URL
+    text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'🖼 \1: \2', text)
+    
+    # Clean up multiple newlines
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    
+    return text
+
+
+def build_message(meta: dict, body: str, url: str) -> str:
     title = meta.get("title", "New post")
-    summary = meta.get("summary", "")
-    parts = [f"New post: {title}"]
-    if summary:
-        parts.append(summary)
-    parts.append(url)
+    
+    # Convert body to Telegram format
+    telegram_body = convert_markdown_to_telegram(body)
+    
+    # Build full message
+    parts = [f"*{title}*", "", telegram_body, "", f"🔗 {url}", "", "@lab_log"]
     return "\n".join(parts)
 
 
@@ -67,15 +99,15 @@ def main() -> int:
         print("No posts found in content/posts.")
         return 0
 
-    meta = parse_metadata(post_path)
+    meta, body = parse_metadata(post_path)
     slug = meta.get("slug", post_path.stem)
     link = meta.get("link") or f"{siteurl}/posts/{slug}/"
 
-    message = build_message(meta, link)
+    message = build_message(meta, body, link)
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     resp = requests.post(
         url,
-        json={"chat_id": chat_id, "text": message},
+        json={"chat_id": chat_id, "text": message, "parse_mode": "Markdown"},
         timeout=10,
     )
 
