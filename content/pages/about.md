@@ -1,6 +1,7 @@
 Title: About
 Date: 2025-01-07
 Slug: about
+Author: Kamronbek Mamaroziqov
 
 Hi, I’m Your Name. I share concise notes on applied AI, automation, and practical workflows. Posts go to Telegram and (optionally) to your inbox via a simple newsletter.
 

@@ -65,7 +65,6 @@ JINJA_GLOBALS = {
     "CURRENT_YEAR": __import__("datetime").datetime.utcnow().year,
 }
 
-# Ensure author is available even if not set per-article
-DEFAULT_METADATA = {
-    "author": AUTHOR,
-}
+# Ensure author is available even if not set per-article/page
+DEFAULT_METADATA = {"author": AUTHOR}
+DEFAULT_PAGE_METADATA = {"author": AUTHOR}
