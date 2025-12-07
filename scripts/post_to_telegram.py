@@ -47,21 +47,37 @@ def latest_post() -> Path | None:
 
 
 def convert_markdown_to_telegram(text: str) -> str:
-    """Convert markdown to Telegram-friendly format."""
+    """Convert markdown to Telegram-friendly HTML format."""
     import re
+    import html
+    
+    # First, escape HTML entities in the raw text
+    text = html.escape(text)
     
     # Convert headers to bold
-    text = re.sub(r'^### (.+)$', r'*\1*', text, flags=re.MULTILINE)
-    text = re.sub(r'^## (.+)$', r'*\1*', text, flags=re.MULTILINE)
-    text = re.sub(r'^# (.+)$', r'*\1*', text, flags=re.MULTILINE)
+    text = re.sub(r'^### (.+)$', r'<b>\1</b>', text, flags=re.MULTILINE)
+    text = re.sub(r'^## (.+)$', r'<b>\1</b>', text, flags=re.MULTILINE)
+    text = re.sub(r'^# (.+)$', r'<b>\1</b>', text, flags=re.MULTILINE)
     
-    # Convert bold **text** to *text*
-    text = re.sub(r'\*\*(.+?)\*\*', r'*\1*', text)
+    # Convert bold **text** to <b>text</b>
+    text = re.sub(r'\*\*(.+?)\*\*', r'<b>\1</b>', text)
     
-    # Convert links [text](url) to text (url)
-    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1 (\2)', text)
+    # Convert single *text* to <b>text</b>
+    text = re.sub(r'(?<!\*)\*([^*\n]+)\*(?!\*)', r'<b>\1</b>', text)
     
-    # Convert images to alt text with URL
+    # Convert _text_ to italic
+    text = re.sub(r'(?<![\w_])_([^_\n]+)_(?![\w_])', r'<i>\1</i>', text)
+    
+    # Convert `code` to <code>
+    text = re.sub(r'`([^`]+)`', r'<code>\1</code>', text)
+    
+    # Convert code blocks ```code``` to <pre>
+    text = re.sub(r'```(\w+)?\n?([\s\S]+?)```', r'<pre>\2</pre>', text)
+    
+    # Convert links [text](url) to <a href>
+    text = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'<a href="\2">\1</a>', text)
+    
+    # Convert images to text with URL
     text = re.sub(r'!\[([^\]]*)\]\(([^)]+)\)', r'🖼 \1: \2', text)
     
     # Clean up multiple newlines
@@ -76,8 +92,12 @@ def build_message(meta: dict, body: str, url: str) -> str:
     # Convert body to Telegram format
     telegram_body = convert_markdown_to_telegram(body)
     
+    # Escape title for HTML
+    import html
+    safe_title = html.escape(title)
+    
     # Build full message
-    parts = [f"*{title}*", "", telegram_body, "", f"🔗 {url}", "", "@lab_log"]
+    parts = [f"<b>{safe_title}</b>", "", telegram_body, "", f"🔗 {url}", "", "@lab_log"]
     return "\n".join(parts)
 
 
@@ -107,7 +127,7 @@ def main() -> int:
     url = f"https://api.telegram.org/bot{token}/sendMessage"
     resp = requests.post(
         url,
-        json={"chat_id": chat_id, "text": message, "parse_mode": "Markdown"},
+        json={"chat_id": chat_id, "text": message, "parse_mode": "HTML"},
         timeout=10,
     )
 
