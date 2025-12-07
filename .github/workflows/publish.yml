@@ -24,6 +24,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: github-pages
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,20 +42,22 @@ jobs:
       - name: Build site
         run: pelican content -o output -s publishconf.py
         env:
-          SITEURL: https://kmamaroziqov.github.io
+          SITEURL: ${{ secrets.SITEURL || 'https://kmamaroziqov.github.io' }}
 
       - name: Post to Telegram
+        if: ${{ secrets.TELEGRAM_BOT_TOKEN != '' && secrets.TELEGRAM_CHAT_ID != '' }}
         run: python scripts/post_to_telegram.py
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          SITEURL: https://kmamaroziqov.github.io
+          SITEURL: ${{ secrets.SITEURL || 'https://kmamaroziqov.github.io' }}
 
       - name: Send newsletter (Buttondown)
+        if: ${{ secrets.BUTTONDOWN_API_KEY != '' }}
         run: python scripts/send_newsletter.py
         env:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
-          SITEURL: https://kmamaroziqov.github.io
+          SITEURL: ${{ secrets.SITEURL || 'https://kmamaroziqov.github.io' }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
