@@ -2,7 +2,7 @@ backend:
   name: github
   repo: kmamaroziqov/kmamaroziqov.github.io
   branch: main
-  base_url: https://YOUR-OAUTH-APP.example.com
+  base_url: https://decap-oauth-ie58keoc4-kmamarodziqovs-projects.vercel.app
   auth_endpoint: /api/auth
 
 publish_mode: editorial_workflow
