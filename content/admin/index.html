@@ -964,7 +964,8 @@
       repo: 'kmamaroziqov/kmamaroziqov.github.io',
       branch: 'main',
       postsPath: 'content/posts',
-      oauthUrl: 'https://decap-oauth-zeta.vercel.app'
+      oauthUrl: 'https://decap-oauth-zeta.vercel.app',
+      allowedAdmins: ['kmamaroziqov'] // Only these GitHub usernames can access admin
     };
 
     let accessToken = localStorage.getItem('github_token');
@@ -1031,6 +1032,14 @@
 
       try {
         const user = await githubApi('/user');
+        
+        // Check if user is in the allowed admins list
+        if (!CONFIG.allowedAdmins.includes(user.login)) {
+          showToast(`Access denied. @${user.login} is not an admin.`, true);
+          logout();
+          return;
+        }
+        
         document.getElementById('userInfo').textContent = `@${user.login}`;
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainApp').classList.remove('hidden');
