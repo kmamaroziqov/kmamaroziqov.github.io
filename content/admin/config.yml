@@ -5,7 +5,7 @@ backend:
   base_url: https://decap-oauth-zeta.vercel.app/
   auth_endpoint: /api/auth
 
-publish_mode: editorial_workflow
+publish_mode: editorial_workflow 
 media_folder: "content/images/uploads"
 public_folder: "/images/uploads"
 
