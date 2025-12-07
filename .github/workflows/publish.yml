@@ -48,13 +48,13 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          SITEURL: https://yourusername.github.io
+          SITEURL: https://kmamaroziqov.github.io
 
       - name: Send newsletter (Buttondown)
         run: python scripts/send_newsletter.py
         env:
           BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
-          SITEURL: https://yourusername.github.io
+          SITEURL: https://kmamaroziqov.github.io
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
