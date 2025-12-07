@@ -1,16 +1,977 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Content Manager</title>
-    <link rel="stylesheet" href="https://unpkg.com/decap-cms@3.0.8/dist/decap-cms.css" />
-    <script>window.CMS_MANUAL_INIT = true;</script>
-  </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@3.0.8/dist/decap-cms.js"></script>
-    <script>
-      CMS.init();
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - My Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0a0a0a;
+      color: #e5e5e5;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #262626;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+    }
+
+    .btn-secondary {
+      background: #262626;
+      color: #e5e5e5;
+    }
+
+    .btn-secondary:hover {
+      background: #363636;
+    }
+
+    .btn-ai {
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      color: white;
+    }
+
+    .btn-ai:hover {
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    }
+
+    .btn-telegram {
+      background: #0088cc;
+      color: white;
+    }
+
+    .btn-telegram:hover {
+      background: #0077b5;
+    }
+
+    .btn-success {
+      background: #22c55e;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #16a34a;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab {
+      padding: 0.5rem 1rem;
+      background: transparent;
+      border: 1px solid #262626;
+      border-radius: 6px;
+      color: #a3a3a3;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab:hover {
+      background: #171717;
+      color: #e5e5e5;
+    }
+
+    .tab.active {
+      background: #262626;
+      color: #fff;
+      border-color: #3b82f6;
+    }
+
+    /* Editor */
+    .editor-section {
+      display: none;
+    }
+
+    .editor-section.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #a3a3a3;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background: #171717;
+      border: 1px solid #262626;
+      border-radius: 6px;
+      color: #e5e5e5;
+      font-size: 0.9375rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+
+    textarea {
+      min-height: 300px;
+      resize: vertical;
+      line-height: 1.6;
+    }
+
+    .small-textarea {
+      min-height: 100px;
+    }
+
+    /* Grid layout for metadata */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Action buttons */
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #262626;
+    }
+
+    /* Posts list */
+    .posts-list {
+      list-style: none;
+    }
+
+    .post-item {
+      padding: 1rem;
+      background: #171717;
+      border: 1px solid #262626;
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .post-item:hover {
+      border-color: #3b82f6;
+      background: #1a1a1a;
+    }
+
+    .post-title {
+      font-weight: 500;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+
+    .post-meta {
+      font-size: 0.8125rem;
+      color: #737373;
+    }
+
+    /* AI Panel */
+    .ai-panel {
+      background: #171717;
+      border: 1px solid #262626;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .ai-panel h3 {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #a78bfa;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ai-options {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+
+    .ai-chip {
+      padding: 0.375rem 0.75rem;
+      background: #262626;
+      border: 1px solid #363636;
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      color: #d4d4d4;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .ai-chip:hover {
+      background: #363636;
+      border-color: #8b5cf6;
+    }
+
+    .ai-output {
+      background: #0a0a0a;
+      border: 1px solid #262626;
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-size: 0.875rem;
+      color: #a3a3a3;
+      min-height: 60px;
+      white-space: pre-wrap;
+    }
+
+    /* Toast notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1rem 1.5rem;
+      background: #22c55e;
+      color: white;
+      border-radius: 8px;
+      font-weight: 500;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error {
+      background: #ef4444;
+    }
+
+    /* Loading state */
+    .loading {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ffffff40;
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Settings */
+    .settings-section {
+      background: #171717;
+      border: 1px solid #262626;
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .settings-section h3 {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    /* Preview */
+    .preview-content {
+      background: #171717;
+      border: 1px solid #262626;
+      border-radius: 8px;
+      padding: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .preview-content h1 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .preview-content p {
+      margin-bottom: 1rem;
+    }
+
+    .preview-content ul, .preview-content ol {
+      margin-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Auth screen */
+    .auth-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      text-align: center;
+    }
+
+    .auth-screen h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .auth-screen p {
+      color: #737373;
+      margin-bottom: 1.5rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <!-- Auth Screen -->
+  <div id="authScreen" class="container auth-screen">
+    <h2>🔐 Admin Login</h2>
+    <p>Connect with GitHub to manage your blog</p>
+    <button class="btn btn-primary" onclick="startAuth()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      Login with GitHub
+    </button>
+  </div>
+
+  <!-- Main App -->
+  <div id="mainApp" class="container hidden">
+    <header>
+      <h1>✍️ Blog Admin</h1>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <span id="userInfo" style="font-size: 0.875rem; color: #737373;"></span>
+        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+      </div>
+    </header>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="editor">New Post</button>
+      <button class="tab" data-tab="posts">All Posts</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </div>
+
+    <!-- Editor Section -->
+    <section id="editor" class="editor-section active">
+      <!-- AI Assistant Panel -->
+      <div class="ai-panel">
+        <h3>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1v6a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-6H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2V6a4 4 0 0 1 4-4z"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/></svg>
+          AI Assistant (Gemini)
+        </h3>
+        <div class="ai-options">
+          <button class="ai-chip" onclick="aiRefine('improve')">✨ Improve Writing</button>
+          <button class="ai-chip" onclick="aiRefine('shorten')">📝 Make Concise</button>
+          <button class="ai-chip" onclick="aiRefine('telegram')">📱 Telegram Format</button>
+          <button class="ai-chip" onclick="aiRefine('grammar')">🔍 Fix Grammar</button>
+          <button class="ai-chip" onclick="aiRefine('hooks')">🎯 Add Hooks</button>
+        </div>
+        <div id="aiOutput" class="ai-output">AI suggestions will appear here...</div>
+        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary" onclick="applyAiSuggestion()">Apply to Body</button>
+          <button class="btn btn-secondary" onclick="copyAiOutput()">Copy</button>
+        </div>
+      </div>
+
+      <!-- Post Form -->
+      <form id="postForm">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" placeholder="Enter post title..." required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="slug">Slug</label>
+            <input type="text" id="slug" name="slug" placeholder="post-url-slug">
+          </div>
+          <div class="form-group">
+            <label for="date">Date</label>
+            <input type="datetime-local" id="date" name="date">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="category">Category</label>
+            <input type="text" id="category" name="category" placeholder="e.g., Updates">
+          </div>
+          <div class="form-group">
+            <label for="tags">Tags (comma separated)</label>
+            <input type="text" id="tags" name="tags" placeholder="AI, productivity">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="summary">Summary</label>
+          <textarea id="summary" name="summary" class="small-textarea" placeholder="Brief description of the post..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="body">Content (Markdown)</label>
+          <textarea id="body" name="body" placeholder="Write your post content here..."></textarea>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn btn-ai" onclick="aiRefine('improve')">
+            ✨ AI Improve
+          </button>
+          <button type="button" class="btn btn-secondary" onclick="previewPost()">
+            👁️ Preview
+          </button>
+          <button type="submit" class="btn btn-success">
+            💾 Save & Publish
+          </button>
+          <button type="button" class="btn btn-telegram" onclick="postToTelegram()">
+            📱 Post to Telegram
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Posts List Section -->
+    <section id="posts" class="editor-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="font-size: 1.125rem;">Your Posts</h2>
+        <button class="btn btn-primary" onclick="switchTab('editor'); resetForm();">+ New Post</button>
+      </div>
+      <ul id="postsList" class="posts-list">
+        <li class="post-item" style="text-align: center; color: #737373;">Loading posts...</li>
+      </ul>
+    </section>
+
+    <!-- Settings Section -->
+    <section id="settings" class="editor-section">
+      <div class="settings-section">
+        <h3>🤖 Gemini API</h3>
+        <div class="form-group">
+          <label for="geminiKey">API Key</label>
+          <input type="text" id="geminiKey" placeholder="Enter your Gemini API key">
+          <p style="font-size: 0.75rem; color: #737373; margin-top: 0.5rem;">
+            Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #3b82f6;">Google AI Studio</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>📱 Telegram</h3>
+        <div class="form-group">
+          <label for="telegramToken">Bot Token</label>
+          <input type="text" id="telegramToken" placeholder="Enter Telegram bot token">
+        </div>
+        <div class="form-group">
+          <label for="telegramChat">Chat ID</label>
+          <input type="text" id="telegramChat" placeholder="Enter channel or chat ID">
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>🌐 Site</h3>
+        <div class="form-group">
+          <label for="siteUrl">Site URL</label>
+          <input type="text" id="siteUrl" placeholder="https://yourdomain.com" value="https://kmamaroziqov.github.io">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+    </section>
+  </div>
+
+  <!-- Preview Modal -->
+  <div id="previewModal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; overflow-y: auto; padding: 2rem;">
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+        <h2 style="color: #fff;">Preview</h2>
+        <button class="btn btn-secondary" onclick="closePreview()">✕ Close</button>
+      </div>
+      <div id="previewContent" class="preview-content"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    // ==================== Configuration ====================
+    const CONFIG = {
+      repo: 'kmamaroziqov/kmamaroziqov.github.io',
+      branch: 'main',
+      postsPath: 'content/posts',
+      oauthUrl: 'https://decap-oauth-zeta.vercel.app'
+    };
+
+    let accessToken = localStorage.getItem('github_token');
+    let currentEditingFile = null;
+
+    // ==================== Auth ====================
+    function startAuth() {
+      const authUrl = `${CONFIG.oauthUrl}/api/auth`;
+      const popup = window.open(authUrl, 'GitHub Auth', 'width=600,height=700');
+      
+      window.addEventListener('message', function authHandler(e) {
+        if (e.data && typeof e.data === 'string' && e.data.startsWith('authorization:github:success:')) {
+          const json = e.data.replace('authorization:github:success:', '');
+          const data = JSON.parse(json);
+          accessToken = data.token;
+          localStorage.setItem('github_token', accessToken);
+          popup.close();
+          window.removeEventListener('message', authHandler);
+          initApp();
+        }
+      });
+    }
+
+    function logout() {
+      localStorage.removeItem('github_token');
+      accessToken = null;
+      document.getElementById('authScreen').classList.remove('hidden');
+      document.getElementById('mainApp').classList.add('hidden');
+    }
+
+    // ==================== Init ====================
+    async function initApp() {
+      if (!accessToken) {
+        document.getElementById('authScreen').classList.remove('hidden');
+        document.getElementById('mainApp').classList.add('hidden');
+        return;
+      }
+
+      try {
+        const user = await githubApi('/user');
+        document.getElementById('userInfo').textContent = `@${user.login}`;
+        document.getElementById('authScreen').classList.add('hidden');
+        document.getElementById('mainApp').classList.remove('hidden');
+        loadSettings();
+        loadPosts();
+        setDefaultDate();
+      } catch (e) {
+        console.error('Auth failed:', e);
+        logout();
+      }
+    }
+
+    function setDefaultDate() {
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      document.getElementById('date').value = now.toISOString().slice(0, 16);
+    }
+
+    // ==================== Tabs ====================
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+    });
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.editor-section').forEach(s => s.classList.remove('active'));
+      document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // ==================== GitHub API ====================
+    async function githubApi(endpoint, options = {}) {
+      const url = endpoint.startsWith('http') ? endpoint : `https://api.github.com${endpoint}`;
+      const res = await fetch(url, {
+        ...options,
+        headers: {
+          'Authorization': `token ${accessToken}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json',
+          ...options.headers
+        }
+      });
+      if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+      return res.json();
+    }
+
+    async function loadPosts() {
+      try {
+        const files = await githubApi(`/repos/${CONFIG.repo}/contents/${CONFIG.postsPath}?ref=${CONFIG.branch}`);
+        const posts = files.filter(f => f.name.endsWith('.md')).reverse();
+        
+        const list = document.getElementById('postsList');
+        if (posts.length === 0) {
+          list.innerHTML = '<li class="post-item" style="text-align: center; color: #737373;">No posts yet</li>';
+          return;
+        }
+
+        list.innerHTML = posts.map(p => `
+          <li class="post-item" onclick="editPost('${p.path}', '${p.sha}')">
+            <div class="post-title">${p.name.replace('.md', '').replace(/-/g, ' ')}</div>
+            <div class="post-meta">Click to edit</div>
+          </li>
+        `).join('');
+      } catch (e) {
+        console.error('Failed to load posts:', e);
+        document.getElementById('postsList').innerHTML = '<li class="post-item error">Failed to load posts</li>';
+      }
+    }
+
+    async function editPost(path, sha) {
+      try {
+        showToast('Loading post...');
+        const file = await githubApi(`/repos/${CONFIG.repo}/contents/${path}?ref=${CONFIG.branch}`);
+        const content = atob(file.content);
+        
+        currentEditingFile = { path, sha: file.sha };
+        
+        // Parse frontmatter
+        const lines = content.split('\n');
+        let bodyStart = 0;
+        const meta = {};
+        
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          if (!line.trim()) {
+            bodyStart = i + 1;
+            break;
+          }
+          if (line.includes(':')) {
+            const [key, ...valueParts] = line.split(':');
+            meta[key.trim().toLowerCase()] = valueParts.join(':').trim();
+          }
+        }
+
+        document.getElementById('title').value = meta.title || '';
+        document.getElementById('slug').value = meta.slug || '';
+        document.getElementById('category').value = meta.category || '';
+        document.getElementById('tags').value = meta.tags || '';
+        document.getElementById('summary').value = meta.summary || '';
+        document.getElementById('body').value = lines.slice(bodyStart).join('\n').trim();
+
+        if (meta.date) {
+          const d = new Date(meta.date);
+          d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+          document.getElementById('date').value = d.toISOString().slice(0, 16);
+        }
+
+        switchTab('editor');
+        showToast('Post loaded!');
+      } catch (e) {
+        console.error(e);
+        showToast('Failed to load post', true);
+      }
+    }
+
+    // ==================== Save Post ====================
+    document.getElementById('postForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await savePost();
+    });
+
+    async function savePost() {
+      const title = document.getElementById('title').value;
+      const slug = document.getElementById('slug').value || slugify(title);
+      const date = document.getElementById('date').value;
+      const category = document.getElementById('category').value;
+      const tags = document.getElementById('tags').value;
+      const summary = document.getElementById('summary').value;
+      const body = document.getElementById('body').value;
+
+      const formattedDate = new Date(date).toISOString().split('T')[0];
+      
+      const content = `Title: ${title}
+Date: ${formattedDate}
+Category: ${category}
+Tags: ${tags}
+Slug: ${slug}
+Summary: ${summary}
+Author: Kamronbek Mamaroziqov
+
+${body}
+`;
+
+      const path = currentEditingFile?.path || `${CONFIG.postsPath}/${slug}.md`;
+      const message = currentEditingFile ? `Update post: ${title}` : `Add new post: ${title}`;
+
+      try {
+        showToast('Saving...');
+        
+        const payload = {
+          message,
+          content: btoa(unescape(encodeURIComponent(content))),
+          branch: CONFIG.branch
+        };
+
+        if (currentEditingFile?.sha) {
+          payload.sha = currentEditingFile.sha;
+        }
+
+        await githubApi(`/repos/${CONFIG.repo}/contents/${path}`, {
+          method: 'PUT',
+          body: JSON.stringify(payload)
+        });
+
+        showToast('Post saved successfully!');
+        currentEditingFile = null;
+        loadPosts();
+      } catch (e) {
+        console.error(e);
+        showToast('Failed to save post', true);
+      }
+    }
+
+    function slugify(text) {
+      return text.toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)/g, '');
+    }
+
+    function resetForm() {
+      currentEditingFile = null;
+      document.getElementById('postForm').reset();
+      setDefaultDate();
+    }
+
+    // ==================== AI (Gemini) ====================
+    async function aiRefine(action) {
+      const geminiKey = localStorage.getItem('gemini_key');
+      if (!geminiKey) {
+        showToast('Please add your Gemini API key in Settings', true);
+        switchTab('settings');
+        return;
+      }
+
+      const body = document.getElementById('body').value;
+      const title = document.getElementById('title').value;
+      const summary = document.getElementById('summary').value;
+
+      if (!body && !summary) {
+        showToast('Please write some content first', true);
+        return;
+      }
+
+      const prompts = {
+        improve: `Improve this blog post content. Make it more engaging, clear, and well-structured while keeping the same meaning and tone. Return only the improved text:\n\n${body}`,
+        shorten: `Make this text more concise without losing key information. Return only the shortened text:\n\n${body}`,
+        telegram: `Convert this blog post into an engaging Telegram channel post. Use:
+- An emoji hook at the start
+- Key points as bullet points (use •)
+- Keep it under 280 words
+- Add 2-3 relevant hashtags at the end
+- Make it engaging and shareable
+
+Title: ${title}
+Summary: ${summary}
+Content: ${body.substring(0, 1500)}`,
+        grammar: `Fix any grammar, spelling, and punctuation errors in this text. Return only the corrected text:\n\n${body}`,
+        hooks: `Add engaging hooks and improve the opening and closing of this blog post. Make it more captivating while keeping the main content. Return the full improved text:\n\n${body}`
+      };
+
+      const prompt = prompts[action];
+      document.getElementById('aiOutput').textContent = 'Thinking...';
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: { temperature: 0.7, maxOutputTokens: 2000 }
+          })
+        });
+
+        const data = await res.json();
+        
+        if (data.error) {
+          throw new Error(data.error.message);
+        }
+
+        const result = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
+        document.getElementById('aiOutput').textContent = result;
+        showToast('AI suggestion ready!');
+      } catch (e) {
+        console.error(e);
+        document.getElementById('aiOutput').textContent = `Error: ${e.message}`;
+        showToast('AI request failed', true);
+      }
+    }
+
+    function applyAiSuggestion() {
+      const suggestion = document.getElementById('aiOutput').textContent;
+      if (suggestion && !suggestion.startsWith('AI suggestions') && !suggestion.startsWith('Error') && !suggestion.startsWith('Thinking')) {
+        document.getElementById('body').value = suggestion;
+        showToast('Applied to body!');
+      }
+    }
+
+    function copyAiOutput() {
+      const text = document.getElementById('aiOutput').textContent;
+      navigator.clipboard.writeText(text);
+      showToast('Copied!');
+    }
+
+    // ==================== Telegram ====================
+    async function postToTelegram() {
+      const token = localStorage.getItem('telegram_token');
+      const chatId = localStorage.getItem('telegram_chat');
+      
+      if (!token || !chatId) {
+        showToast('Please configure Telegram in Settings', true);
+        switchTab('settings');
+        return;
+      }
+
+      const title = document.getElementById('title').value;
+      const summary = document.getElementById('summary').value;
+      const slug = document.getElementById('slug').value || slugify(title);
+      const siteUrl = localStorage.getItem('site_url') || 'https://kmamaroziqov.github.io';
+      const link = `${siteUrl}/posts/${slug}/`;
+
+      // Check if we have AI-refined telegram content
+      const aiOutput = document.getElementById('aiOutput').textContent;
+      let message;
+      
+      if (aiOutput && !aiOutput.startsWith('AI suggestions') && !aiOutput.startsWith('Error')) {
+        message = `${aiOutput}\n\n🔗 ${link}`;
+      } else {
+        message = `📝 *${title}*\n\n${summary || ''}\n\n🔗 Read more: ${link}`;
+      }
+
+      try {
+        showToast('Posting to Telegram...');
+        const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'Markdown',
+            disable_web_page_preview: false
+          })
+        });
+
+        const data = await res.json();
+        if (data.ok) {
+          showToast('Posted to Telegram!');
+        } else {
+          throw new Error(data.description);
+        }
+      } catch (e) {
+        console.error(e);
+        showToast(`Telegram error: ${e.message}`, true);
+      }
+    }
+
+    // ==================== Preview ====================
+    function previewPost() {
+      const title = document.getElementById('title').value;
+      const body = document.getElementById('body').value;
+      
+      const html = `<h1>${title}</h1>${marked.parse(body)}`;
+      document.getElementById('previewContent').innerHTML = html;
+      document.getElementById('previewModal').classList.remove('hidden');
+    }
+
+    function closePreview() {
+      document.getElementById('previewModal').classList.add('hidden');
+    }
+
+    // ==================== Settings ====================
+    function saveSettings() {
+      localStorage.setItem('gemini_key', document.getElementById('geminiKey').value);
+      localStorage.setItem('telegram_token', document.getElementById('telegramToken').value);
+      localStorage.setItem('telegram_chat', document.getElementById('telegramChat').value);
+      localStorage.setItem('site_url', document.getElementById('siteUrl').value);
+      showToast('Settings saved!');
+    }
+
+    function loadSettings() {
+      document.getElementById('geminiKey').value = localStorage.getItem('gemini_key') || '';
+      document.getElementById('telegramToken').value = localStorage.getItem('telegram_token') || '';
+      document.getElementById('telegramChat').value = localStorage.getItem('telegram_chat') || '';
+      document.getElementById('siteUrl').value = localStorage.getItem('site_url') || 'https://kmamaroziqov.github.io';
+    }
+
+    // ==================== Utils ====================
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.className = 'toast show' + (isError ? ' error' : '');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // Auto-generate slug from title
+    document.getElementById('title').addEventListener('input', (e) => {
+      if (!currentEditingFile) {
+        document.getElementById('slug').value = slugify(e.target.value);
+      }
+    });
+
+    // ==================== Init on Load ====================
+    initApp();
+  </script>
+</body>
 </html>
