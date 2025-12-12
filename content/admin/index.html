@@ -3,75 +3,335 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - My Blog</title>
+  <title>Write</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #0a0a0a;
-      color: #e5e5e5;
+      font-family: 'Crimson Pro', Georgia, serif;
+      background: #faf8f5;
+      color: #2d2a26;
       min-height: 100vh;
+      line-height: 1.7;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 2.5rem 1.5rem;
     }
 
+    /* Header */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #262626;
+      margin-bottom: 3rem;
     }
 
-    h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #fff;
+    .logo {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: #8a8580;
+      letter-spacing: -0.01em;
     }
 
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .user-name {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: #a09a94;
+    }
+
+    /* Buttons */
     .btn {
-      padding: 0.5rem 1rem;
+      font-family: 'Inter', sans-serif;
+      padding: 0.5rem 0.875rem;
       border: none;
-      border-radius: 6px;
-      font-size: 0.875rem;
+      border-radius: 5px;
+      font-size: 0.8125rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s ease;
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.375rem;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: #8a8580;
+    }
+
+    .btn-ghost:hover {
+      color: #2d2a26;
+      background: #f0ece6;
+    }
+
+    .btn-soft {
+      background: #f0ece6;
+      color: #5c5650;
+    }
+
+    .btn-soft:hover {
+      background: #e6e0d8;
     }
 
     .btn-primary {
-      background: #3b82f6;
-      color: white;
+      background: #2d2a26;
+      color: #faf8f5;
     }
 
     .btn-primary:hover {
-      background: #2563eb;
+      background: #1a1816;
     }
 
-    .btn-secondary {
-      background: #262626;
-      color: #e5e5e5;
+    .btn-telegram {
+      background: #0088cc;
+      color: white;
     }
 
-    .btn-secondary:hover {
-      background: #363636;
+    .btn-telegram:hover {
+      background: #006da3;
     }
 
+    /* Form */
+    .write-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #a09a94;
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+      background: #fff;
+      border: 1px solid #e6e0d8;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 1rem;
+      color: #2d2a26;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #c9c3bb;
+      box-shadow: 0 0 0 3px rgba(45, 42, 38, 0.05);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #c9c3bb;
+    }
+
+    .title-input {
+      font-size: 1.75rem;
+      font-weight: 500;
+      border: none;
+      background: transparent;
+      padding: 0;
+    }
+
+    .title-input:focus {
+      box-shadow: none;
+    }
+
+    .body-textarea {
+      min-height: 400px;
+      resize: vertical;
+      font-size: 1.125rem;
+      line-height: 1.8;
+    }
+
+    .meta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 500px) {
+      .meta-row { grid-template-columns: 1fr; }
+    }
+
+    /* Actions */
+    .actions {
+      display: flex;
+      gap: 0.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e6e0d8;
+      flex-wrap: wrap;
+    }
+
+    .actions-right {
+      margin-left: auto;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    /* Posts list */
+    .posts-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #e6e0d8;
+    }
+
+    .posts-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .posts-header h2 {
+      font-size: 0.8125rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      color: #8a8580;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .posts-list {
+      list-style: none;
+    }
+
+    .post-item {
+      padding: 0.875rem 0;
+      border-bottom: 1px solid #f0ece6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+
+    .post-item:hover {
+      background: #fdfcfa;
+      margin: 0 -0.75rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      border-radius: 4px;
+    }
+
+    .post-title {
+      font-size: 1rem;
+      color: #2d2a26;
+    }
+
+    .post-date {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      color: #a09a94;
+    }
+
+    /* Auth screen */
+    .auth-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      text-align: center;
+    }
+
+    .auth-screen h2 {
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: #2d2a26;
+    }
+
+    .auth-screen p {
+      color: #8a8580;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      padding: 0.75rem 1.25rem;
+      background: #2d2a26;
+      color: #faf8f5;
+      border-radius: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.25s ease;
+      z-index: 100;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error {
+      background: #c53030;
+    }
+
+    .hidden { display: none !important; }
+
+    /* Settings toggle */
+    .settings-panel {
+      margin-top: 2rem;
+      padding: 1.25rem;
+      background: #fff;
+      border: 1px solid #e6e0d8;
+      border-radius: 8px;
+    }
+
+    .settings-panel h3 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #8a8580;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    .settings-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    /* Delete button */
+    .btn-delete {
+      background: transparent;
+      color: #c53030;
+      border: 1px solid #c53030;
+    }
+
+    .btn-delete:hover {
+      background: #c53030;
+      color: white;
+    }
+
+    /* AI Panel */
     .btn-ai {
       background: linear-gradient(135deg, #8b5cf6, #6366f1);
       color: white;
@@ -81,938 +341,225 @@
       background: linear-gradient(135deg, #7c3aed, #4f46e5);
     }
 
-    .btn-telegram {
-      background: #0088cc;
-      color: white;
-    }
-
-    .btn-telegram:hover {
-      background: #0077b5;
-    }
-
-    .btn-success {
-      background: #22c55e;
-      color: white;
-    }
-
-    .btn-success:hover {
-      background: #16a34a;
-    }
-
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .tab {
-      padding: 0.5rem 1rem;
-      background: transparent;
-      border: 1px solid #262626;
-      border-radius: 6px;
-      color: #a3a3a3;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .tab:hover {
-      background: #171717;
-      color: #e5e5e5;
-    }
-
-    .tab.active {
-      background: #262626;
-      color: #fff;
-      border-color: #3b82f6;
-    }
-
-    /* Editor */
-    .editor-section {
-      display: none;
-    }
-
-    .editor-section.active {
-      display: block;
-    }
-
-    .form-group {
-      margin-bottom: 1.25rem;
-    }
-
-    label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #a3a3a3;
-      margin-bottom: 0.5rem;
-    }
-
-    input[type="text"],
-    input[type="datetime-local"],
-    textarea {
-      width: 100%;
-      padding: 0.75rem;
-      background: #171717;
-      border: 1px solid #262626;
-      border-radius: 6px;
-      color: #e5e5e5;
-      font-size: 0.9375rem;
-      font-family: inherit;
-      transition: border-color 0.2s;
-    }
-
-    input:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #3b82f6;
-    }
-
-    textarea {
-      min-height: 300px;
-      resize: vertical;
-      line-height: 1.6;
-    }
-
-    .small-textarea {
-      min-height: 100px;
-    }
-
-    /* Grid layout for metadata */
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    @media (max-width: 600px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Action buttons */
-    .actions {
-      display: flex;
-      gap: 0.75rem;
-      flex-wrap: wrap;
+    .ai-panel {
       margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid #262626;
-    }
-
-    /* Posts list */
-    .posts-list {
-      list-style: none;
-    }
-
-    .post-item {
       padding: 1rem;
-      background: #171717;
-      border: 1px solid #262626;
+      background: #f8f6f3;
+      border: 1px solid #e6e0d8;
       border-radius: 8px;
-      margin-bottom: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .post-item:hover {
-      border-color: #3b82f6;
-      background: #1a1a1a;
-    }
-
-    .post-item-content {
-      flex: 1;
-      cursor: pointer;
-    }
-
-    .post-title {
-      font-weight: 500;
-      color: #fff;
-      margin-bottom: 0.25rem;
-    }
-
-    .post-meta {
-      font-size: 0.8125rem;
-      color: #737373;
-    }
-
-    .post-actions {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-    }
-
-    .btn-delete {
-      background: transparent;
-      border: 1px solid #dc2626;
-      color: #dc2626;
-      padding: 0.375rem 0.75rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-delete:hover {
-      background: #dc2626;
-      color: white;
-    }
-
-    .post-item {
+    .ai-panel-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    /* AI Panel */
-    .ai-panel {
-      background: #171717;
-      border: 1px solid #262626;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .ai-panel h3 {
-      font-size: 0.9375rem;
-      font-weight: 500;
-      color: #a78bfa;
       margin-bottom: 0.75rem;
+    }
+
+    .ai-panel h4 {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #8b5cf6;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.375rem;
     }
 
-    .ai-options {
+    .ai-actions {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.375rem;
       flex-wrap: wrap;
       margin-bottom: 0.75rem;
     }
 
     .ai-chip {
-      padding: 0.375rem 0.75rem;
-      background: #262626;
-      border: 1px solid #363636;
-      border-radius: 20px;
-      font-size: 0.8125rem;
-      color: #d4d4d4;
+      font-family: 'Inter', sans-serif;
+      padding: 0.375rem 0.625rem;
+      background: #fff;
+      border: 1px solid #e6e0d8;
+      border-radius: 16px;
+      font-size: 0.75rem;
+      color: #5c5650;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.15s;
     }
 
     .ai-chip:hover {
-      background: #363636;
       border-color: #8b5cf6;
+      color: #8b5cf6;
     }
 
     .ai-output {
-      background: #0a0a0a;
-      border: 1px solid #262626;
+      background: #fff;
+      border: 1px solid #e6e0d8;
       border-radius: 6px;
       padding: 0.75rem;
-      font-size: 0.875rem;
-      color: #a3a3a3;
-      min-height: 60px;
-      white-space: pre-wrap;
-    }
-
-    /* Toast notification */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      padding: 1rem 1.5rem;
-      background: #22c55e;
-      color: white;
-      border-radius: 8px;
-      font-weight: 500;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s;
-      z-index: 1000;
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    .toast.error {
-      background: #ef4444;
-    }
-
-    /* Loading state */
-    .loading {
-      opacity: 0.6;
-      pointer-events: none;
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #ffffff40;
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Settings */
-    .settings-section {
-      background: #171717;
-      border: 1px solid #262626;
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .settings-section h3 {
-      font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-      color: #fff;
-    }
-
-    /* Preview */
-    .preview-content {
-      background: #171717;
-      border: 1px solid #262626;
-      border-radius: 8px;
-      padding: 1.5rem;
-      line-height: 1.7;
-    }
-
-    .preview-content h1 {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-    }
-
-    .preview-content p {
-      margin-bottom: 1rem;
-    }
-
-    .preview-content ul, .preview-content ol {
-      margin-left: 1.5rem;
-      margin-bottom: 1rem;
-    }
-
-    /* Auth screen */
-    .auth-screen {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 80vh;
-      text-align: center;
-    }
-
-    .auth-screen h2 {
-      font-size: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .auth-screen p {
-      color: #737373;
-      margin-bottom: 1.5rem;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* Media Toolbar */
-    .toolbar {
-      display: flex;
-      gap: 0.25rem;
-      margin-bottom: 0.5rem;
-      padding: 0.5rem;
-      background: #171717;
-      border: 1px solid #262626;
-      border-radius: 6px 6px 0 0;
-      border-bottom: none;
-      flex-wrap: wrap;
-    }
-
-    .toolbar-btn {
-      padding: 0.5rem 0.75rem;
-      background: #262626;
-      border: 1px solid #363636;
-      border-radius: 4px;
-      color: #d4d4d4;
-      font-size: 0.8125rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.375rem;
-    }
-
-    .toolbar-btn:hover {
-      background: #363636;
-      border-color: #525252;
-      color: #fff;
-    }
-
-    .toolbar-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    .toolbar-divider {
-      width: 1px;
-      background: #363636;
-      margin: 0 0.25rem;
-    }
-
-    #body {
-      border-radius: 0 0 6px 6px;
-    }
-
-    /* Modal */
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-      padding: 1rem;
-    }
-
-    .modal-content {
-      background: #171717;
-      border: 1px solid #262626;
-      border-radius: 12px;
-      padding: 1.5rem;
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
+      font-size: 0.9375rem;
+      color: #5c5650;
+      min-height: 80px;
+      max-height: 300px;
       overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.6;
     }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .modal-header h3 {
-      font-size: 1.125rem;
-      color: #fff;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      color: #737373;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0;
-      line-height: 1;
-    }
-
-    .modal-close:hover {
-      color: #fff;
-    }
-
-    /* Image upload area */
-    .upload-area {
-      border: 2px dashed #363636;
-      border-radius: 8px;
-      padding: 2rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      margin-bottom: 1rem;
-    }
-
-    .upload-area:hover {
-      border-color: #3b82f6;
-      background: #1a1a2e;
-    }
-
-    .upload-area.dragover {
-      border-color: #22c55e;
-      background: #1a2e1a;
-    }
-
-    .upload-icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .upload-text {
-      color: #737373;
-      font-size: 0.875rem;
-    }
-
-    /* Image preview */
-    .image-preview {
-      margin: 1rem 0;
-      text-align: center;
-    }
-
-    .image-preview img {
-      max-width: 100%;
-      max-height: 200px;
-      border-radius: 6px;
-      border: 1px solid #262626;
-    }
-
-    .image-info {
-      font-size: 0.75rem;
-      color: #737373;
-      margin-top: 0.5rem;
-    }
-
-    /* Size options */
-    .size-options {
+    .ai-output-actions {
       display: flex;
       gap: 0.5rem;
-      margin: 1rem 0;
-      flex-wrap: wrap;
-    }
-
-    .size-option {
-      padding: 0.5rem 1rem;
-      background: #262626;
-      border: 1px solid #363636;
-      border-radius: 6px;
-      color: #d4d4d4;
-      cursor: pointer;
-      font-size: 0.8125rem;
-      transition: all 0.2s;
-    }
-
-    .size-option:hover {
-      border-color: #3b82f6;
-    }
-
-    .size-option.active {
-      background: #3b82f6;
-      border-color: #3b82f6;
-      color: #fff;
-    }
-
-    /* Preview enhancements */
-    .preview-content img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin: 1rem 0;
-    }
-
-    .preview-content .youtube-embed {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      margin: 1rem 0;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .preview-content .youtube-embed iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    .preview-content a {
-      color: #3b82f6;
-      text-decoration: none;
-    }
-
-    .preview-content a:hover {
-      text-decoration: underline;
-    }
-
-    .preview-content code {
-      background: #262626;
-      padding: 0.125rem 0.375rem;
-      border-radius: 4px;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.875em;
-    }
-
-    .preview-content pre {
-      background: #1a1a1a;
-      padding: 1rem;
-      border-radius: 8px;
-      overflow-x: auto;
-      margin: 1rem 0;
-    }
-
-    .preview-content pre code {
-      background: none;
-      padding: 0;
-    }
-
-    .preview-content blockquote {
-      border-left: 3px solid #3b82f6;
-      padding-left: 1rem;
-      margin: 1rem 0;
-      color: #a3a3a3;
-      font-style: italic;
+      margin-top: 0.75rem;
     }
   </style>
 </head>
 <body>
   <!-- Auth Screen -->
   <div id="authScreen" class="container auth-screen">
-    <h2>🔐 Admin Login</h2>
-    <p>Connect with GitHub to manage your blog</p>
+    <h2>Welcome</h2>
+    <p>Sign in to write and publish</p>
     <button class="btn btn-primary" onclick="startAuth()">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-      Login with GitHub
+      Sign in with GitHub
     </button>
   </div>
 
   <!-- Main App -->
   <div id="mainApp" class="container hidden">
     <header>
-      <h1>✍️ Blog Admin</h1>
-      <div style="display: flex; gap: 0.5rem; align-items: center;">
-        <span id="userInfo" style="font-size: 0.875rem; color: #737373;"></span>
-        <button class="btn btn-secondary" onclick="logout()">Logout</button>
+      <span class="logo">✎ Write</span>
+      <div class="header-actions">
+        <span id="userInfo" class="user-name"></span>
+        <button class="btn btn-ghost" onclick="toggleSettings()">⚙</button>
+        <button class="btn btn-ghost" onclick="logout()">Sign out</button>
       </div>
     </header>
 
-    <!-- Tabs -->
-    <div class="tabs">
-      <button class="tab active" data-tab="editor">New Post</button>
-      <button class="tab" data-tab="posts">All Posts</button>
-      <button class="tab" data-tab="settings">Settings</button>
-    </div>
+    <!-- Write Form -->
+    <form id="postForm" class="write-form">
+      <div class="form-group">
+        <input type="text" id="title" class="title-input" placeholder="Title" required>
+      </div>
 
-    <!-- Editor Section -->
-    <section id="editor" class="editor-section active">
-      <!-- AI Assistant Panel -->
-      <div class="ai-panel">
-        <h3>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4v1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1v6a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2v-6H8a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2V6a4 4 0 0 1 4-4z"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="9" r="1"/></svg>
-          AI Assistant (Gemini)
-        </h3>
-        <div class="ai-options">
-          <button class="ai-chip" onclick="aiRefine('improve')">✨ Improve Writing</button>
-          <button class="ai-chip" onclick="aiRefine('shorten')">📝 Make Concise</button>
-          <button class="ai-chip" onclick="aiRefine('telegram')">📱 Telegram Format</button>
-          <button class="ai-chip" onclick="aiRefine('grammar')">🔍 Fix Grammar</button>
-          <button class="ai-chip" onclick="aiRefine('hooks')">🎯 Add Hooks</button>
+      <div class="form-group">
+        <textarea id="body" class="body-textarea" placeholder="Write your thoughts..."></textarea>
+      </div>
+
+      <div class="meta-row">
+        <div class="form-group">
+          <label for="slug">Slug</label>
+          <input type="text" id="slug" placeholder="url-friendly-name">
         </div>
-        <div id="aiOutput" class="ai-output">AI suggestions will appear here...</div>
-        <div style="margin-top: 0.75rem; display: flex; gap: 0.5rem;">
-          <button class="btn btn-secondary" onclick="applyAiSuggestion()">Apply to Body</button>
-          <button class="btn btn-secondary" onclick="copyAiOutput()">Copy</button>
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <input type="text" id="tags" placeholder="AI, notes">
         </div>
       </div>
 
-      <!-- Post Form -->
-      <form id="postForm">
+      <div class="actions">
+        <button type="button" class="btn btn-ai" onclick="toggleAiPanel()">
+          ✨ AI Refine
+        </button>
+        <button type="button" class="btn btn-telegram" onclick="postToTelegram()">
+          📨 Send to Telegram
+        </button>
+        <div class="actions-right">
+          <button type="button" id="deleteBtn" class="btn btn-delete hidden" onclick="deleteCurrentPost()">
+            Delete
+          </button>
+          <button type="button" class="btn btn-soft" onclick="resetForm()">
+            New
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Publish
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <!-- AI Panel -->
+    <div id="aiPanel" class="ai-panel hidden">
+      <div class="ai-panel-header">
+        <h4>✨ AI Assistant</h4>
+        <button class="btn btn-ghost" onclick="toggleAiPanel()" style="padding: 0.25rem 0.5rem;">✕</button>
+      </div>
+      <div class="ai-actions">
+        <button class="ai-chip" onclick="aiRefine('improve')">Improve writing</button>
+        <button class="ai-chip" onclick="aiRefine('shorten')">Make concise</button>
+        <button class="ai-chip" onclick="aiRefine('telegram')">Telegram format</button>
+        <button class="ai-chip" onclick="aiRefine('grammar')">Fix grammar</button>
+      </div>
+      <div id="aiOutput" class="ai-output">AI suggestions will appear here...</div>
+      <div class="ai-output-actions">
+        <button class="btn btn-soft" onclick="applyAiSuggestion()">Apply to post</button>
+        <button class="btn btn-ghost" onclick="copyAiOutput()">Copy</button>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settingsPanel" class="settings-panel hidden">
+      <h3>Settings</h3>
+      <div class="settings-grid">
         <div class="form-group">
-          <label for="title">Title</label>
-          <input type="text" id="title" name="title" placeholder="Enter post title..." required>
+          <label for="geminiKey">Gemini API Key</label>
+          <input type="text" id="geminiKey" placeholder="AIza...">
+          <small style="font-size: 0.7rem; color: #a09a94; display: block; margin-top: 0.25rem;">Get free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #8b5cf6;">Google AI Studio</a></small>
         </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="slug">Slug</label>
-            <input type="text" id="slug" name="slug" placeholder="post-url-slug">
-          </div>
-          <div class="form-group">
-            <label for="date">Date</label>
-            <input type="datetime-local" id="date" name="date">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="category">Category</label>
-            <input type="text" id="category" name="category" placeholder="e.g., Updates">
-          </div>
-          <div class="form-group">
-            <label for="tags">Tags (comma separated)</label>
-            <input type="text" id="tags" name="tags" placeholder="AI, productivity">
-          </div>
-        </div>
-
         <div class="form-group">
-          <label for="summary">Summary</label>
-          <textarea id="summary" name="summary" class="small-textarea" placeholder="Brief description of the post..."></textarea>
+          <label for="telegramToken">Telegram Bot Token</label>
+          <input type="text" id="telegramToken" placeholder="123456:ABC-DEF...">
         </div>
-
         <div class="form-group">
-          <label for="body">Content (Markdown)</label>
-          <div class="toolbar">
-            <button type="button" class="toolbar-btn" onclick="insertBold()" title="Bold">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg>
-              B
-            </button>
-            <button type="button" class="toolbar-btn" onclick="insertItalic()" title="Italic">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="4" x2="10" y2="4"/><line x1="14" y1="20" x2="5" y2="20"/><line x1="15" y1="4" x2="9" y2="20"/></svg>
-              I
-            </button>
-            <button type="button" class="toolbar-btn" onclick="insertHeading()" title="Heading">
-              H
-            </button>
-            <button type="button" class="toolbar-btn" onclick="insertList()" title="Bullet List">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg>
-            </button>
-            <button type="button" class="toolbar-btn" onclick="insertQuote()" title="Quote">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 17h3l2-4V7H5v6h3zm8 0h3l2-4V7h-6v6h3z"/></svg>
-            </button>
-            <button type="button" class="toolbar-btn" onclick="insertCode()" title="Code">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            </button>
-            <div class="toolbar-divider"></div>
-            <button type="button" class="toolbar-btn" onclick="openLinkModal()" title="Insert Link">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-              Link
-            </button>
-            <button type="button" class="toolbar-btn" onclick="openImageModal()" title="Insert Image">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              Image
-            </button>
-            <button type="button" class="toolbar-btn" onclick="openYouTubeModal()" title="Embed YouTube">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
-              YouTube
-            </button>
-          </div>
-          <textarea id="body" name="body" placeholder="Write your post content here..."></textarea>
+          <label for="telegramChat">Telegram Channel ID</label>
+          <input type="text" id="telegramChat" placeholder="@channelname or -100...">
         </div>
+        <button class="btn btn-soft" onclick="saveSettings()">Save Settings</button>
+      </div>
+    </div>
 
-        <div class="actions">
-          <button type="button" class="btn btn-ai" onclick="aiRefine('improve')">
-            ✨ AI Improve
-          </button>
-          <button type="button" class="btn btn-secondary" onclick="previewPost()">
-            👁️ Preview
-          </button>
-          <button type="submit" class="btn btn-success">
-            💾 Save & Publish
-          </button>
-          <button type="button" class="btn btn-telegram" onclick="postToTelegram()">
-            📱 Post to Telegram
-          </button>
-          <button type="button" id="deletePostBtn" class="btn btn-delete hidden" onclick="deleteCurrentPost()" style="margin-left: auto;">
-            🗑️ Delete Post
-          </button>
-        </div>
-      </form>
-    </section>
-
-    <!-- Posts List Section -->
-    <section id="posts" class="editor-section">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h2 style="font-size: 1.125rem;">Your Posts</h2>
-        <button class="btn btn-primary" onclick="switchTab('editor'); resetForm();">+ New Post</button>
+    <!-- Posts List -->
+    <section class="posts-section">
+      <div class="posts-header">
+        <h2>Your Posts</h2>
       </div>
       <ul id="postsList" class="posts-list">
-        <li class="post-item" style="text-align: center; color: #737373;">Loading posts...</li>
+        <li style="color: #a09a94; padding: 1rem 0;">Loading...</li>
       </ul>
     </section>
-
-    <!-- Settings Section -->
-    <section id="settings" class="editor-section">
-      <div class="settings-section">
-        <h3>🤖 Gemini API</h3>
-        <div class="form-group">
-          <label for="geminiKey">API Key</label>
-          <input type="text" id="geminiKey" placeholder="Enter your Gemini API key">
-          <p style="font-size: 0.75rem; color: #737373; margin-top: 0.5rem;">
-            Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #3b82f6;">Google AI Studio</a>
-          </p>
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <h3>📱 Telegram</h3>
-        <div class="form-group">
-          <label for="telegramToken">Bot Token</label>
-          <input type="text" id="telegramToken" placeholder="Enter Telegram bot token">
-        </div>
-        <div class="form-group">
-          <label for="telegramChat">Chat ID</label>
-          <input type="text" id="telegramChat" placeholder="Enter channel or chat ID">
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <h3>🌐 Site</h3>
-        <div class="form-group">
-          <label for="siteUrl">Site URL</label>
-          <input type="text" id="siteUrl" placeholder="https://yourdomain.com" value="https://kmamaroziqov.github.io">
-        </div>
-      </div>
-
-      <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
-    </section>
-  </div>
-
-  <!-- Preview Modal -->
-  <div id="previewModal" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; overflow-y: auto; padding: 2rem;">
-    <div class="container">
-      <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-        <h2 style="color: #fff;">Preview</h2>
-        <button class="btn btn-secondary" onclick="closePreview()">✕ Close</button>
-      </div>
-      <div id="previewContent" class="preview-content"></div>
-    </div>
-  </div>
-
-  <!-- Link Modal -->
-  <div id="linkModal" class="modal hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>🔗 Insert Link</h3>
-        <button class="modal-close" onclick="closeLinkModal()">&times;</button>
-      </div>
-      <div class="form-group">
-        <label for="linkText">Link Text</label>
-        <input type="text" id="linkText" placeholder="Click here">
-      </div>
-      <div class="form-group">
-        <label for="linkUrl">URL</label>
-        <input type="text" id="linkUrl" placeholder="https://example.com">
-      </div>
-      <button class="btn btn-primary" onclick="insertLink()" style="width: 100%;">Insert Link</button>
-    </div>
-  </div>
-
-  <!-- Image Modal -->
-  <div id="imageModal" class="modal hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>🖼️ Insert Image</h3>
-        <button class="modal-close" onclick="closeImageModal()">&times;</button>
-      </div>
-      
-      <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
-        <div class="upload-icon">📷</div>
-        <div class="upload-text">Click or drag & drop an image</div>
-        <div class="upload-text" style="font-size: 0.75rem; margin-top: 0.25rem;">Supports: JPG, PNG, GIF, WebP</div>
-      </div>
-      <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
-      
-      <div id="imagePreviewContainer" class="image-preview hidden">
-        <img id="imagePreviewImg" src="" alt="Preview">
-        <div class="image-info" id="imageInfo"></div>
-      </div>
-      
-      <div class="form-group">
-        <label>Or paste image URL</label>
-        <input type="text" id="imageUrl" placeholder="https://example.com/image.jpg" oninput="handleImageUrl()">
-      </div>
-      
-      <div class="form-group">
-        <label for="imageAlt">Alt Text (for accessibility)</label>
-        <input type="text" id="imageAlt" placeholder="Description of the image">
-      </div>
-      
-      <div class="form-group">
-        <label>Image Size</label>
-        <div class="size-options">
-          <button type="button" class="size-option" data-size="small" onclick="selectSize('small')">Small (320px)</button>
-          <button type="button" class="size-option active" data-size="medium" onclick="selectSize('medium')">Medium (640px)</button>
-          <button type="button" class="size-option" data-size="large" onclick="selectSize('large')">Large (1024px)</button>
-          <button type="button" class="size-option" data-size="full" onclick="selectSize('full')">Original</button>
-        </div>
-      </div>
-      
-      <button class="btn btn-primary" onclick="insertImage()" style="width: 100%;">Insert Image</button>
-    </div>
-  </div>
-
-  <!-- YouTube Modal -->
-  <div id="youtubeModal" class="modal hidden">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3>▶️ Embed YouTube Video</h3>
-        <button class="modal-close" onclick="closeYouTubeModal()">&times;</button>
-      </div>
-      <div class="form-group">
-        <label for="youtubeUrl">YouTube URL</label>
-        <input type="text" id="youtubeUrl" placeholder="https://www.youtube.com/watch?v=..." oninput="parseYouTubeUrl()">
-        <p style="font-size: 0.75rem; color: #737373; margin-top: 0.5rem;">Paste any YouTube link (regular, short, or embed)</p>
-      </div>
-      <div id="youtubePreview" class="hidden" style="margin: 1rem 0;">
-        <div style="position: relative; padding-bottom: 56.25%; border-radius: 8px; overflow: hidden;">
-          <iframe id="youtubePreviewFrame" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"></iframe>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="insertYouTube()" style="width: 100%;">Embed Video</button>
-    </div>
   </div>
 
   <!-- Toast -->
   <div id="toast" class="toast"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
-    // ==================== Configuration ====================
+    // Config
     const CONFIG = {
       repo: 'kmamaroziqov/kmamaroziqov.github.io',
       branch: 'main',
       postsPath: 'content/posts',
       oauthUrl: 'https://decap-oauth-zeta.vercel.app',
-      allowedAdmins: ['kmamaroziqov'] // Only these GitHub usernames can access admin
+      siteUrl: 'https://kmamaroziqov.github.io',
+      allowedAdmins: ['kmamaroziqov']
     };
 
     let accessToken = localStorage.getItem('github_token');
     let currentEditingFile = null;
 
-    // ==================== Auth ====================
+    // Auth
     function startAuth() {
-      const authUrl = `${CONFIG.oauthUrl}/api/auth`;
-      const popup = window.open(authUrl, 'GitHub Auth', 'width=600,height=700');
+      const popup = window.open(`${CONFIG.oauthUrl}/api/auth`, 'GitHub Auth', 'width=600,height=700');
       
-      // Listen for messages from popup
-      const authHandler = function(e) {
-        console.log('Received message:', e.data);
-        
-        // Handle the authorization message
-        if (e.data && typeof e.data === 'string') {
-          if (e.data.startsWith('authorization:github:success:')) {
-            const json = e.data.replace('authorization:github:success:', '');
-            try {
-              const data = JSON.parse(json);
-              accessToken = data.token;
-              localStorage.setItem('github_token', accessToken);
-              window.removeEventListener('message', authHandler);
-              if (popup && !popup.closed) popup.close();
-              showToast('Login successful!');
-              initApp();
-            } catch (err) {
-              console.error('Failed to parse auth data:', err);
-              showToast('Login failed', true);
-            }
-          } else if (e.data === 'authorizing:github') {
-            // Popup is ready, send acknowledgment
-            console.log('Popup ready, sending ack');
-            e.source.postMessage('ack', e.origin);
-          }
+      const handler = (e) => {
+        if (e.data?.startsWith?.('authorization:github:success:')) {
+          const data = JSON.parse(e.data.replace('authorization:github:success:', ''));
+          accessToken = data.token;
+          localStorage.setItem('github_token', accessToken);
+          window.removeEventListener('message', handler);
+          popup?.close();
+          showToast('Signed in!');
+          initApp();
         }
       };
-      
-      window.addEventListener('message', authHandler);
-      
-      // Fallback: check if popup closed without auth
-      const checkClosed = setInterval(() => {
-        if (popup && popup.closed) {
-          clearInterval(checkClosed);
-          window.removeEventListener('message', authHandler);
-        }
-      }, 1000);
+      window.addEventListener('message', handler);
     }
 
     function logout() {
@@ -1022,7 +569,7 @@
       document.getElementById('mainApp').classList.add('hidden');
     }
 
-    // ==================== Init ====================
+    // Init
     async function initApp() {
       if (!accessToken) {
         document.getElementById('authScreen').classList.remove('hidden');
@@ -1032,10 +579,8 @@
 
       try {
         const user = await githubApi('/user');
-        
-        // Check if user is in the allowed admins list
         if (!CONFIG.allowedAdmins.includes(user.login)) {
-          showToast(`Access denied. @${user.login} is not an admin.`, true);
+          showToast('Access denied', true);
           logout();
           return;
         }
@@ -1045,32 +590,12 @@
         document.getElementById('mainApp').classList.remove('hidden');
         loadSettings();
         loadPosts();
-        setDefaultDate();
       } catch (e) {
-        console.error('Auth failed:', e);
         logout();
       }
     }
 
-    function setDefaultDate() {
-      const now = new Date();
-      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-      document.getElementById('date').value = now.toISOString().slice(0, 16);
-    }
-
-    // ==================== Tabs ====================
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => switchTab(tab.dataset.tab));
-    });
-
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.editor-section').forEach(s => s.classList.remove('active'));
-      document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-      document.getElementById(tabId).classList.add('active');
-    }
-
-    // ==================== GitHub API ====================
+    // GitHub API
     async function githubApi(endpoint, options = {}) {
       const url = endpoint.startsWith('http') ? endpoint : `https://api.github.com${endpoint}`;
       const res = await fetch(url, {
@@ -1082,361 +607,167 @@
           ...options.headers
         }
       });
-      if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+      if (!res.ok) throw new Error(`API error: ${res.status}`);
       return res.json();
     }
 
+    // Load posts
     async function loadPosts() {
       try {
         const files = await githubApi(`/repos/${CONFIG.repo}/contents/${CONFIG.postsPath}?ref=${CONFIG.branch}`);
         const posts = files.filter(f => f.name.endsWith('.md')).reverse();
         
         const list = document.getElementById('postsList');
-        if (posts.length === 0) {
-          list.innerHTML = '<li class="post-item" style="text-align: center; color: #737373;">No posts yet</li>';
+        if (!posts.length) {
+          list.innerHTML = '<li style="color: #a09a94; padding: 1rem 0;">No posts yet. Start writing!</li>';
           return;
         }
 
         list.innerHTML = posts.map(p => `
-          <li class="post-item">
-            <div class="post-item-content" onclick="editPost('${p.path}', '${p.sha}')">
-              <div class="post-title">${p.name.replace('.md', '').replace(/-/g, ' ')}</div>
-              <div class="post-meta">Click to edit</div>
-            </div>
-            <div class="post-actions">
-              <button class="btn-delete" onclick="event.stopPropagation(); deletePost('${p.path}', '${p.sha}', '${p.name.replace(/'/g, "\\'")}')">🗑️ Delete</button>
-            </div>
+          <li class="post-item" onclick="editPost('${p.path}')">
+            <span class="post-title">${p.name.replace('.md', '').replace(/-/g, ' ')}</span>
+            <span class="post-date">Edit →</span>
           </li>
         `).join('');
       } catch (e) {
-        console.error('Failed to load posts:', e);
-        document.getElementById('postsList').innerHTML = '<li class="post-item error">Failed to load posts</li>';
+        console.error(e);
       }
     }
 
-    async function editPost(path, sha) {
+    // Edit post
+    async function editPost(path) {
       try {
-        showToast('Loading post...');
+        showToast('Loading...');
         const file = await githubApi(`/repos/${CONFIG.repo}/contents/${path}?ref=${CONFIG.branch}`);
         const content = atob(file.content);
         
         currentEditingFile = { path, sha: file.sha };
         
-        // Parse frontmatter
         const lines = content.split('\n');
         let bodyStart = 0;
         const meta = {};
         
         for (let i = 0; i < lines.length; i++) {
-          const line = lines[i];
-          if (!line.trim()) {
-            bodyStart = i + 1;
-            break;
-          }
-          if (line.includes(':')) {
-            const [key, ...valueParts] = line.split(':');
-            meta[key.trim().toLowerCase()] = valueParts.join(':').trim();
+          if (!lines[i].trim()) { bodyStart = i + 1; break; }
+          if (lines[i].includes(':')) {
+            const [key, ...vals] = lines[i].split(':');
+            meta[key.trim().toLowerCase()] = vals.join(':').trim();
           }
         }
 
         document.getElementById('title').value = meta.title || '';
         document.getElementById('slug').value = meta.slug || '';
-        document.getElementById('category').value = meta.category || '';
         document.getElementById('tags').value = meta.tags || '';
-        document.getElementById('summary').value = meta.summary || '';
         document.getElementById('body').value = lines.slice(bodyStart).join('\n').trim();
-
-        if (meta.date) {
-          const d = new Date(meta.date);
-          d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-          document.getElementById('date').value = d.toISOString().slice(0, 16);
-        }
-
-        // Show delete button when editing
-        document.getElementById('deletePostBtn').classList.remove('hidden');
-
-        switchTab('editor');
-        showToast('Post loaded!');
+        document.getElementById('deleteBtn').classList.remove('hidden');
+        
+        showToast('Loaded!');
       } catch (e) {
-        console.error(e);
-        showToast('Failed to load post', true);
+        showToast('Failed to load', true);
       }
     }
 
-    // ==================== Delete Post ====================
-    async function deletePost(path, sha, name) {
-      const confirmed = confirm(`Are you sure you want to delete "${name.replace('.md', '')}"?\n\nThis action cannot be undone.`);
-      
-      if (!confirmed) return;
-      
-      try {
-        showToast('Deleting post...');
-        
-        await githubApi(`/repos/${CONFIG.repo}/contents/${path}`, {
-          method: 'DELETE',
-          body: JSON.stringify({
-            message: `Delete post: ${name}`,
-            sha: sha,
-            branch: CONFIG.branch
-          })
-        });
-        
-        showToast('Post deleted successfully!');
-        
-        // If we were editing this post, reset the form
-        if (currentEditingFile?.path === path) {
-          resetForm();
-        }
-        
-        // Reload posts list
-        loadPosts();
-      } catch (e) {
-        console.error(e);
-        showToast('Failed to delete post', true);
-      }
-    }
-
-    // ==================== Save Post ====================
+    // Save post
     document.getElementById('postForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      await savePost();
-    });
-
-    async function savePost() {
+      
       const title = document.getElementById('title').value;
       const slug = document.getElementById('slug').value || slugify(title);
-      const date = document.getElementById('date').value;
-      const category = document.getElementById('category').value;
       const tags = document.getElementById('tags').value;
-      const summary = document.getElementById('summary').value;
       const body = document.getElementById('body').value;
+      const date = new Date().toISOString().split('T')[0];
 
-      const formattedDate = new Date(date).toISOString().split('T')[0];
-      
       const content = `Title: ${title}
-Date: ${formattedDate}
-Category: ${category}
+Date: ${date}
 Tags: ${tags}
 Slug: ${slug}
-Summary: ${summary}
 Author: Kamronbek Mamaroziqov
 
 ${body}
 `;
 
       const path = currentEditingFile?.path || `${CONFIG.postsPath}/${slug}.md`;
-      const message = currentEditingFile ? `Update post: ${title}` : `Add new post: ${title}`;
+      const payload = {
+        message: currentEditingFile ? `Update: ${title}` : `New post: ${title}`,
+        content: btoa(unescape(encodeURIComponent(content))),
+        branch: CONFIG.branch
+      };
+      
+      if (currentEditingFile?.sha) payload.sha = currentEditingFile.sha;
 
       try {
         showToast('Saving...');
-        
-        const payload = {
-          message,
-          content: btoa(unescape(encodeURIComponent(content))),
-          branch: CONFIG.branch
-        };
-
-        if (currentEditingFile?.sha) {
-          payload.sha = currentEditingFile.sha;
-        }
-
         await githubApi(`/repos/${CONFIG.repo}/contents/${path}`, {
           method: 'PUT',
           body: JSON.stringify(payload)
         });
-
-        showToast('Post saved successfully!');
-        currentEditingFile = null;
+        showToast('Published!');
+        resetForm();
         loadPosts();
       } catch (e) {
-        console.error(e);
-        showToast('Failed to save post', true);
+        showToast('Failed to save', true);
       }
-    }
+    });
 
-    function slugify(text) {
-      return text.toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
-    }
-
-    function resetForm() {
-      currentEditingFile = null;
-      document.getElementById('postForm').reset();
-      document.getElementById('deletePostBtn').classList.add('hidden');
-      setDefaultDate();
-    }
-
-    function deleteCurrentPost() {
-      if (currentEditingFile) {
-        const name = currentEditingFile.path.split('/').pop();
-        deletePost(currentEditingFile.path, currentEditingFile.sha, name);
-      }
-    }
-
-    // ==================== AI (Gemini) ====================
-    async function aiRefine(action) {
-      const geminiKey = localStorage.getItem('gemini_key');
-      if (!geminiKey) {
-        showToast('Please add your Gemini API key in Settings', true);
-        switchTab('settings');
-        return;
-      }
-
-      const body = document.getElementById('body').value;
-      const title = document.getElementById('title').value;
-      const summary = document.getElementById('summary').value;
-
-      if (!body && !summary) {
-        showToast('Please write some content first', true);
-        return;
-      }
-
-      const prompts = {
-        improve: `Improve this blog post content. Make it more engaging, clear, and well-structured while keeping the same meaning and tone. Return only the improved text:\n\n${body}`,
-        shorten: `Make this text more concise without losing key information. Return only the shortened text:\n\n${body}`,
-        telegram: `Convert this blog post into an engaging Telegram channel post. Use:
-- An emoji hook at the start
-- Key points as bullet points (use •)
-- Keep it under 280 words
-- Add 2-3 relevant hashtags at the end
-- Make it engaging and shareable
-
-Title: ${title}
-Summary: ${summary}
-Content: ${body.substring(0, 1500)}`,
-        grammar: `Fix any grammar, spelling, and punctuation errors in this text. Return only the corrected text:\n\n${body}`,
-        hooks: `Add engaging hooks and improve the opening and closing of this blog post. Make it more captivating while keeping the main content. Return the full improved text:\n\n${body}`
-      };
-
-      const prompt = prompts[action];
-      document.getElementById('aiOutput').textContent = 'Thinking...';
-
-      // Try models in order of preference
-      const models = [
-        'gemini-2.5-flash',
-        'gemini-2.0-flash', 
-        'gemini-1.5-flash'
-      ];
+    // Delete post
+    async function deleteCurrentPost() {
+      if (!currentEditingFile || !confirm('Delete this post?')) return;
       
-      let lastError = null;
-      
-      for (const model of models) {
-        try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: { temperature: 0.7, maxOutputTokens: 2000 }
-            })
-          });
-
-          const data = await res.json();
-          
-          if (data.error) {
-            // Check if it's a rate limit error
-            if (data.error.message?.includes('quota') || data.error.message?.includes('rate') || data.error.code === 429) {
-              console.log(`Rate limited on ${model}, trying next...`);
-              lastError = data.error.message;
-              continue; // Try next model
-            }
-            throw new Error(data.error.message);
-          }
-
-          const result = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
-          document.getElementById('aiOutput').textContent = result;
-          showToast(`AI suggestion ready! (${model.split('-').slice(0,2).join(' ')})`);
-          return; // Success, exit function
-          
-        } catch (e) {
-          console.error(`Error with ${model}:`, e);
-          lastError = e.message;
-          continue; // Try next model
-        }
-      }
-      
-      // All models failed
-      const isRateLimit = lastError?.includes('quota') || lastError?.includes('rate');
-      if (isRateLimit) {
-        document.getElementById('aiOutput').textContent = `⏱️ Rate limit reached. Please wait about 1 minute and try again.\n\nThe free Gemini API has limits of ~15 requests per minute.`;
-      } else {
-        document.getElementById('aiOutput').textContent = `Error: ${lastError}`;
-      }
-      showToast('AI request failed - rate limited', true);
-    }
-
-    function applyAiSuggestion() {
-      const suggestion = document.getElementById('aiOutput').textContent;
-      if (suggestion && !suggestion.startsWith('AI suggestions') && !suggestion.startsWith('Error') && !suggestion.startsWith('Thinking')) {
-        document.getElementById('body').value = suggestion;
-        showToast('Applied to body!');
+      try {
+        showToast('Deleting...');
+        await githubApi(`/repos/${CONFIG.repo}/contents/${currentEditingFile.path}`, {
+          method: 'DELETE',
+          body: JSON.stringify({
+            message: `Delete post`,
+            sha: currentEditingFile.sha,
+            branch: CONFIG.branch
+          })
+        });
+        showToast('Deleted!');
+        resetForm();
+        loadPosts();
+      } catch (e) {
+        showToast('Failed to delete', true);
       }
     }
 
-    function copyAiOutput() {
-      const text = document.getElementById('aiOutput').textContent;
-      navigator.clipboard.writeText(text);
-      showToast('Copied!');
-    }
-
-    // ==================== Telegram ====================
+    // Telegram - Using HTML parse mode for reliable formatting
     async function postToTelegram() {
       const token = localStorage.getItem('telegram_token');
       const chatId = localStorage.getItem('telegram_chat');
       
       if (!token || !chatId) {
-        showToast('Please configure Telegram in Settings', true);
-        switchTab('settings');
+        showToast('Configure Telegram in settings', true);
+        document.getElementById('settingsPanel').classList.remove('hidden');
         return;
       }
 
       const title = document.getElementById('title').value;
       const body = document.getElementById('body').value;
       const slug = document.getElementById('slug').value || slugify(title);
-      const siteUrl = localStorage.getItem('site_url') || 'https://kmamaroziqov.github.io';
-      const link = `${siteUrl}/posts/${slug}/`;
+      const link = `${CONFIG.siteUrl}/posts/${slug}/`;
 
-      // Convert markdown to Telegram-friendly format
-      let telegramContent = body
-        // Convert headers to bold
-        .replace(/^### (.+)$/gm, '*$1*')
-        .replace(/^## (.+)$/gm, '*$1*')
-        .replace(/^# (.+)$/gm, '*$1*')
-        // Convert bold
-        .replace(/\*\*(.+?)\*\*/g, '*$1*')
-        // Convert italic (underscore style)
-        .replace(/(?<!\w)_(.+?)_(?!\w)/g, '_$1_')
-        // Convert inline code
-        .replace(/`([^`]+)`/g, '`$1`')
-        // Convert code blocks
-        .replace(/```(\w+)?\n([\s\S]+?)```/g, '```$2```')
-        // Convert links [text](url) to text (url)
-        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
-        // Convert images to just the alt text with URL
-        .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '🖼 $1: $2')
-        // Clean up multiple newlines
-        .replace(/\n{3,}/g, '\n\n');
-
-      // Build the full message with title
-      const message = `*${title}*\n\n${telegramContent}\n\n🔗 ${link}\n\n@lab_log`;
+      // Convert markdown to Telegram HTML format
+      const htmlContent = markdownToTelegramHtml(body);
+      
+      const message = `<b>${escapeHtml(title)}</b>\n\n${htmlContent}\n\n🔗 <a href="${link}">Read more</a>\n\n@lab_log`;
 
       try {
-        showToast('Posting to Telegram...');
+        showToast('Sending to Telegram...');
         const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             chat_id: chatId,
             text: message,
-            parse_mode: 'Markdown',
+            parse_mode: 'HTML',
             disable_web_page_preview: false
           })
         });
 
         const data = await res.json();
         if (data.ok) {
-          showToast('Posted to Telegram!');
+          showToast('Sent to Telegram!');
         } else {
           throw new Error(data.description);
         }
@@ -1446,400 +777,196 @@ Content: ${body.substring(0, 1500)}`,
       }
     }
 
-    // ==================== Preview ====================
-    function previewPost() {
-      const title = document.getElementById('title').value;
-      const body = document.getElementById('body').value;
+    // Convert markdown to Telegram HTML
+    function markdownToTelegramHtml(text) {
+      let html = text;
       
-      const html = `<h1>${title}</h1>${marked.parse(body)}`;
-      document.getElementById('previewContent').innerHTML = html;
-      document.getElementById('previewModal').classList.remove('hidden');
+      // First escape HTML entities in plain text
+      // But we need to be careful not to escape our own tags
+      
+      // Process code blocks first (protect them)
+      const codeBlocks = [];
+      html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        codeBlocks.push(`<pre>${escapeHtml(code.trim())}</pre>`);
+        return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
+      });
+      
+      // Process inline code
+      const inlineCodes = [];
+      html = html.replace(/`([^`]+)`/g, (match, code) => {
+        inlineCodes.push(`<code>${escapeHtml(code)}</code>`);
+        return `__INLINE_CODE_${inlineCodes.length - 1}__`;
+      });
+      
+      // Now escape remaining HTML
+      html = escapeHtml(html);
+      
+      // Restore code blocks and inline code
+      codeBlocks.forEach((block, i) => {
+        html = html.replace(`__CODE_BLOCK_${i}__`, block);
+      });
+      inlineCodes.forEach((code, i) => {
+        html = html.replace(`__INLINE_CODE_${i}__`, code);
+      });
+      
+      // Convert markdown formatting
+      // Bold: **text** or __text__
+      html = html.replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+      html = html.replace(/__(.+?)__/g, '<b>$1</b>');
+      
+      // Italic: *text* or _text_
+      html = html.replace(/(?<![*_])\*([^*]+)\*(?![*_])/g, '<i>$1</i>');
+      html = html.replace(/(?<![*_])_([^_]+)_(?![*_])/g, '<i>$1</i>');
+      
+      // Strikethrough: ~~text~~
+      html = html.replace(/~~(.+?)~~/g, '<s>$1</s>');
+      
+      // Links: [text](url)
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+      
+      // Remove image markdown (Telegram doesn't support inline images in text)
+      html = html.replace(/!\[([^\]]*)\]\([^)]+\)/g, '🖼 $1');
+      
+      // Remove headers markdown (just keep text, make bold)
+      html = html.replace(/^#{1,6}\s+(.+)$/gm, '<b>$1</b>');
+      
+      // Clean up multiple newlines
+      html = html.replace(/\n{3,}/g, '\n\n');
+      
+      return html.trim();
     }
 
-    function closePreview() {
-      document.getElementById('previewModal').classList.add('hidden');
+    function escapeHtml(text) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;'
+      };
+      return text.replace(/[&<>]/g, c => map[c]);
     }
 
-    // ==================== Settings ====================
+    // AI Functions
+    function toggleAiPanel() {
+      document.getElementById('aiPanel').classList.toggle('hidden');
+    }
+
+    async function aiRefine(action) {
+      const geminiKey = localStorage.getItem('gemini_key');
+      if (!geminiKey) {
+        showToast('Add Gemini API key in settings', true);
+        document.getElementById('settingsPanel').classList.remove('hidden');
+        return;
+      }
+
+      const body = document.getElementById('body').value;
+      const title = document.getElementById('title').value;
+
+      if (!body) {
+        showToast('Write some content first', true);
+        return;
+      }
+
+      const prompts = {
+        improve: `Improve this blog post. Make it more engaging and clear while keeping the same meaning. Return only the improved text:\n\n${body}`,
+        shorten: `Make this text more concise without losing key information. Return only the shortened text:\n\n${body}`,
+        telegram: `Convert this into an engaging Telegram post. Use:\n- Emoji at the start\n- Key points as bullets (use •)\n- Keep under 280 words\n- Add 2-3 hashtags\n\nTitle: ${title}\nContent: ${body.substring(0, 1500)}`,
+        grammar: `Fix grammar, spelling, and punctuation in this text. Return only the corrected text:\n\n${body}`
+      };
+
+      document.getElementById('aiOutput').textContent = 'Thinking...';
+      document.getElementById('aiPanel').classList.remove('hidden');
+
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompts[action] }] }]
+          })
+        });
+
+        const data = await res.json();
+        console.log('Gemini response:', data);
+        
+        if (data.error) {
+          document.getElementById('aiOutput').textContent = 'Error: ' + (data.error.message || JSON.stringify(data.error));
+          showToast('AI error', true);
+          return;
+        }
+
+        const result = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!result) {
+          document.getElementById('aiOutput').textContent = 'No response from AI. Response: ' + JSON.stringify(data);
+          return;
+        }
+        
+        document.getElementById('aiOutput').textContent = result;
+        showToast('AI ready!');
+      } catch (e) {
+        console.error('Gemini error:', e);
+        document.getElementById('aiOutput').textContent = 'Request failed: ' + e.message;
+        showToast('AI error', true);
+      }
+    }
+
+    function applyAiSuggestion() {
+      const suggestion = document.getElementById('aiOutput').textContent;
+      if (suggestion && !suggestion.startsWith('AI suggestions') && !suggestion.startsWith('Thinking') && !suggestion.startsWith('Rate limited')) {
+        document.getElementById('body').value = suggestion;
+        showToast('Applied!');
+      }
+    }
+
+    function copyAiOutput() {
+      navigator.clipboard.writeText(document.getElementById('aiOutput').textContent);
+      showToast('Copied!');
+    }
+
+    // Settings
+    function toggleSettings() {
+      document.getElementById('settingsPanel').classList.toggle('hidden');
+    }
+
     function saveSettings() {
       localStorage.setItem('gemini_key', document.getElementById('geminiKey').value);
       localStorage.setItem('telegram_token', document.getElementById('telegramToken').value);
       localStorage.setItem('telegram_chat', document.getElementById('telegramChat').value);
-      localStorage.setItem('site_url', document.getElementById('siteUrl').value);
       showToast('Settings saved!');
+      document.getElementById('settingsPanel').classList.add('hidden');
     }
 
     function loadSettings() {
       document.getElementById('geminiKey').value = localStorage.getItem('gemini_key') || '';
       document.getElementById('telegramToken').value = localStorage.getItem('telegram_token') || '';
       document.getElementById('telegramChat').value = localStorage.getItem('telegram_chat') || '';
-      document.getElementById('siteUrl').value = localStorage.getItem('site_url') || 'https://kmamaroziqov.github.io';
     }
 
-    // ==================== Utils ====================
-    function showToast(message, isError = false) {
+    // Utils
+    function slugify(text) {
+      return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function resetForm() {
+      currentEditingFile = null;
+      document.getElementById('postForm').reset();
+      document.getElementById('deleteBtn').classList.add('hidden');
+    }
+
+    function showToast(msg, isError = false) {
       const toast = document.getElementById('toast');
-      toast.textContent = message;
+      toast.textContent = msg;
       toast.className = 'toast show' + (isError ? ' error' : '');
-      setTimeout(() => toast.classList.remove('show'), 3000);
+      setTimeout(() => toast.classList.remove('show'), 2500);
     }
 
-    // Auto-generate slug from title
+    // Auto-generate slug
     document.getElementById('title').addEventListener('input', (e) => {
       if (!currentEditingFile) {
         document.getElementById('slug').value = slugify(e.target.value);
       }
     });
 
-    // ==================== Toolbar Functions ====================
-    function insertAtCursor(before, after = '') {
-      const textarea = document.getElementById('body');
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const text = textarea.value;
-      const selectedText = text.substring(start, end);
-      
-      const newText = text.substring(0, start) + before + selectedText + after + text.substring(end);
-      textarea.value = newText;
-      
-      // Set cursor position
-      const newCursorPos = start + before.length + selectedText.length + after.length;
-      textarea.focus();
-      textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length);
-    }
-
-    function insertBold() {
-      insertAtCursor('**', '**');
-    }
-
-    function insertItalic() {
-      insertAtCursor('*', '*');
-    }
-
-    function insertHeading() {
-      const textarea = document.getElementById('body');
-      const start = textarea.selectionStart;
-      const text = textarea.value;
-      
-      // Find the start of the current line
-      let lineStart = start;
-      while (lineStart > 0 && text[lineStart - 1] !== '\n') {
-        lineStart--;
-      }
-      
-      const newText = text.substring(0, lineStart) + '## ' + text.substring(lineStart);
-      textarea.value = newText;
-      textarea.focus();
-      textarea.setSelectionRange(lineStart + 3, lineStart + 3);
-    }
-
-    function insertList() {
-      insertAtCursor('\n- ', '');
-    }
-
-    function insertQuote() {
-      insertAtCursor('\n> ', '');
-    }
-
-    function insertCode() {
-      const textarea = document.getElementById('body');
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const selectedText = textarea.value.substring(start, end);
-      
-      if (selectedText.includes('\n')) {
-        insertAtCursor('\n```\n', '\n```\n');
-      } else {
-        insertAtCursor('`', '`');
-      }
-    }
-
-    // ==================== Link Modal ====================
-    function openLinkModal() {
-      const textarea = document.getElementById('body');
-      const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
-      document.getElementById('linkText').value = selectedText || '';
-      document.getElementById('linkUrl').value = '';
-      document.getElementById('linkModal').classList.remove('hidden');
-    }
-
-    function closeLinkModal() {
-      document.getElementById('linkModal').classList.add('hidden');
-    }
-
-    function insertLink() {
-      const text = document.getElementById('linkText').value || 'link';
-      const url = document.getElementById('linkUrl').value;
-      
-      if (!url) {
-        showToast('Please enter a URL', true);
-        return;
-      }
-      
-      const textarea = document.getElementById('body');
-      const start = textarea.selectionStart;
-      const end = textarea.selectionEnd;
-      const content = textarea.value;
-      
-      const markdown = `[${text}](${url})`;
-      textarea.value = content.substring(0, start) + markdown + content.substring(end);
-      textarea.focus();
-      
-      closeLinkModal();
-      showToast('Link inserted!');
-    }
-
-    // ==================== Image Modal ====================
-    let currentImageData = null;
-    let selectedImageSize = 'medium';
-
-    function openImageModal() {
-      currentImageData = null;
-      document.getElementById('imageUrl').value = '';
-      document.getElementById('imageAlt').value = '';
-      document.getElementById('imagePreviewContainer').classList.add('hidden');
-      document.getElementById('imageModal').classList.remove('hidden');
-      selectSize('medium');
-    }
-
-    function closeImageModal() {
-      document.getElementById('imageModal').classList.add('hidden');
-      currentImageData = null;
-    }
-
-    function selectSize(size) {
-      selectedImageSize = size;
-      document.querySelectorAll('.size-option').forEach(btn => btn.classList.remove('active'));
-      document.querySelector(`.size-option[data-size="${size}"]`).classList.add('active');
-    }
-
-    // Drag and drop
-    const uploadArea = document.getElementById('uploadArea');
-    
-    uploadArea?.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      uploadArea.classList.add('dragover');
-    });
-
-    uploadArea?.addEventListener('dragleave', () => {
-      uploadArea.classList.remove('dragover');
-    });
-
-    uploadArea?.addEventListener('drop', (e) => {
-      e.preventDefault();
-      uploadArea.classList.remove('dragover');
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
-        processImage(file);
-      }
-    });
-
-    function handleImageSelect(event) {
-      const file = event.target.files[0];
-      if (file) {
-        processImage(file);
-      }
-    }
-
-    function handleImageUrl() {
-      const url = document.getElementById('imageUrl').value;
-      if (url) {
-        currentImageData = { type: 'url', url };
-        document.getElementById('imagePreviewImg').src = url;
-        document.getElementById('imagePreviewContainer').classList.remove('hidden');
-        document.getElementById('imageInfo').textContent = 'External image';
-      }
-    }
-
-    async function processImage(file) {
-      showToast('Processing image...');
-      
-      const sizes = {
-        small: 320,
-        medium: 640,
-        large: 1024,
-        full: null
-      };
-      
-      const maxWidth = sizes[selectedImageSize];
-      
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const img = new Image();
-        img.onload = () => {
-          let width = img.width;
-          let height = img.height;
-          
-          // Resize if needed
-          if (maxWidth && width > maxWidth) {
-            height = (height * maxWidth) / width;
-            width = maxWidth;
-          }
-          
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-          
-          // Convert to base64 (WebP for better compression if supported, else JPEG)
-          let dataUrl;
-          const quality = 0.85;
-          
-          if (canvas.toDataURL('image/webp').startsWith('data:image/webp')) {
-            dataUrl = canvas.toDataURL('image/webp', quality);
-          } else {
-            dataUrl = canvas.toDataURL('image/jpeg', quality);
-          }
-          
-          currentImageData = {
-            type: 'base64',
-            data: dataUrl,
-            filename: file.name.replace(/\.[^.]+$/, '') + (selectedImageSize === 'full' ? '' : `-${selectedImageSize}`),
-            width,
-            height,
-            originalSize: file.size,
-            newSize: Math.round(dataUrl.length * 0.75)
-          };
-          
-          document.getElementById('imagePreviewImg').src = dataUrl;
-          document.getElementById('imagePreviewContainer').classList.remove('hidden');
-          
-          const savedPercent = Math.round((1 - currentImageData.newSize / currentImageData.originalSize) * 100);
-          document.getElementById('imageInfo').textContent = 
-            `${width}×${height}px • ${formatBytes(currentImageData.newSize)}` + 
-            (savedPercent > 0 ? ` (${savedPercent}% smaller)` : '');
-          
-          showToast('Image ready!');
-        };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function formatBytes(bytes) {
-      if (bytes < 1024) return bytes + ' B';
-      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
-    }
-
-    async function insertImage() {
-      const altText = document.getElementById('imageAlt').value || 'image';
-      const urlInput = document.getElementById('imageUrl').value;
-      
-      if (!currentImageData && !urlInput) {
-        showToast('Please upload an image or enter a URL', true);
-        return;
-      }
-      
-      let imageUrl = urlInput;
-      
-      if (currentImageData?.type === 'base64') {
-        // Upload to GitHub
-        showToast('Uploading image to GitHub...');
-        try {
-          const filename = `${currentImageData.filename}-${Date.now()}.webp`;
-          const path = `content/images/uploads/${filename}`;
-          
-          // Extract base64 data without prefix
-          const base64Data = currentImageData.data.split(',')[1];
-          
-          await githubApi(`/repos/${CONFIG.repo}/contents/${path}`, {
-            method: 'PUT',
-            body: JSON.stringify({
-              message: `Upload image: ${filename}`,
-              content: base64Data,
-              branch: CONFIG.branch
-            })
-          });
-          
-          imageUrl = `/images/uploads/${filename}`;
-          showToast('Image uploaded!');
-        } catch (e) {
-          console.error(e);
-          showToast('Failed to upload image', true);
-          return;
-        }
-      }
-      
-      const markdown = `![${altText}](${imageUrl})`;
-      const textarea = document.getElementById('body');
-      const pos = textarea.selectionStart;
-      textarea.value = textarea.value.substring(0, pos) + '\n' + markdown + '\n' + textarea.value.substring(pos);
-      
-      closeImageModal();
-    }
-
-    // ==================== YouTube Modal ====================
-    let currentYouTubeId = null;
-
-    function openYouTubeModal() {
-      document.getElementById('youtubeUrl').value = '';
-      document.getElementById('youtubePreview').classList.add('hidden');
-      currentYouTubeId = null;
-      document.getElementById('youtubeModal').classList.remove('hidden');
-    }
-
-    function closeYouTubeModal() {
-      document.getElementById('youtubeModal').classList.add('hidden');
-    }
-
-    function parseYouTubeUrl() {
-      const url = document.getElementById('youtubeUrl').value;
-      
-      // Extract video ID from various YouTube URL formats
-      const patterns = [
-        /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/,
-        /youtube\.com\/shorts\/([\w-]{11})/
-      ];
-      
-      for (const pattern of patterns) {
-        const match = url.match(pattern);
-        if (match) {
-          currentYouTubeId = match[1];
-          document.getElementById('youtubePreviewFrame').src = `https://www.youtube.com/embed/${currentYouTubeId}`;
-          document.getElementById('youtubePreview').classList.remove('hidden');
-          return;
-        }
-      }
-      
-      currentYouTubeId = null;
-      document.getElementById('youtubePreview').classList.add('hidden');
-    }
-
-    function insertYouTube() {
-      if (!currentYouTubeId) {
-        showToast('Please enter a valid YouTube URL', true);
-        return;
-      }
-      
-      // Use a custom syntax that we'll parse in preview
-      const markdown = `\n{% youtube ${currentYouTubeId} %}\n`;
-      const textarea = document.getElementById('body');
-      const pos = textarea.selectionStart;
-      textarea.value = textarea.value.substring(0, pos) + markdown + textarea.value.substring(pos);
-      
-      closeYouTubeModal();
-      showToast('YouTube video embedded!');
-    }
-
-    // ==================== Enhanced Preview ====================
-    function previewPost() {
-      const title = document.getElementById('title').value;
-      let body = document.getElementById('body').value;
-      
-      // Process YouTube embeds
-      body = body.replace(/\{%\s*youtube\s+([\w-]+)\s*%\}/g, (match, videoId) => {
-        return `<div class="youtube-embed"><iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen></iframe></div>`;
-      });
-      
-      const html = `<h1>${title}</h1>${marked.parse(body)}`;
-      document.getElementById('previewContent').innerHTML = html;
-      document.getElementById('previewModal').classList.remove('hidden');
-    }
-
-    // ==================== Init on Load ====================
+    // Init on load
     initApp();
   </script>
 </body>
